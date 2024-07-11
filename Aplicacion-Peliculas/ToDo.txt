@@ -1,0 +1,34 @@
+Crear los componentes
+  - Peliculas
+    - Title
+    - Save
+    - Img
+  - Contenedor películas
+  - Trending Movies
+  - Barra lateral
+    - Home
+    - Search
+    - Your List
+    - Most valuated
+    - Genre
+  - Random Show
+    - Img
+    - Review
+      - Title
+      - Stars
+      - Abstract
+      - Save
+
+Animar flex-wrap
+
+Añadir eventos 
+  - Save
+  - Ver resumen
+  - Calificar
+
+- Aplicar API films
+  - Limite de 10
+  - Ordenadas por fecha estreno
+- Renombrar las propiedades de los objetos para no depender si cambian en la API
+- Añadir elemento fecha
+
