@@ -1,2 +1,2 @@
 # Movies-Project-React
-Basic Movie Web w/REaCT
+Basic Movie Web w/REACT
