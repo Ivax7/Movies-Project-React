@@ -1,0 +1,154 @@
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
+  display: flex;
+  height: 100vh;
+  margin: 0;
+}
+/* Container General */
+#container {
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+}
+
+/* Barra de navegación */
+nav {
+  display: flex;
+  position: fixed;
+  flex-direction: column;
+  gap: 10px;
+  padding: 20px;
+  background-color: #1c3350;
+  height: 100%;
+  width: 250px;
+  z-index: 1;
+}
+
+.actions {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 15px;
+}
+
+.black-mode button{
+  border-radius: 100%;
+}
+
+i {
+  color: white;
+  padding: 5px 8px;
+  font-size: 22px;
+  transition: all .2s ease-in-out;
+}
+
+.black-mode:hover i {
+  color: rgb(255, 233, 108);
+}
+
+nav button {
+  padding: 10px;
+  font-size: 16px;
+  cursor: pointer;
+  margin: 0;
+  transition: all .2s ease-in-out;
+}
+
+
+.selector {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 10px;
+  color: white;
+  border: none;
+  cursor: pointer;
+  overflow: hidden;
+  height: 50px; /* Adjust height as needed */
+}
+
+.selector i {
+  position: absolute;
+  transition: transform 0.3s ease;
+}
+
+.selector span {
+  position: absolute;
+  white-space: nowrap;
+  opacity: 0;
+  transform: translateX(20px);
+  transition: transform 0.3s ease, opacity 0.3s ease;
+}
+
+.selector:hover i {
+  transform: translateX(-50px);
+}
+
+.selector:hover span {
+  transform: translateX(0);
+  opacity: 1;
+}
+
+
+.log-in {
+  margin-top: auto;
+}
+
+/* Contenido principal */
+main {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  padding: 10px;
+  gap: 10px;
+  margin-left: 250px;
+}
+
+#top-section {
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
+  flex: 1;
+}
+
+#review, #poster, #recent-films {
+  background-color: rgb(26, 26, 26);
+  padding: 5px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}
+
+#review {
+  padding: 50px;
+}
+
+#review, #poster {
+  flex: 1;
+  height: 500px;
+  position: relative;
+}
+
+
+#poster img {
+  max-height: 400px;
+}
+
+#recent-films {
+  flex: none;
+  width: 100%;
+  padding-left: 50px;
+  align-items: flex-start;
+}
+
+#recent-films h2 {
+  margin-bottom: 10px;
+}

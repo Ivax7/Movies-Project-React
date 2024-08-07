@@ -1,12 +1,12 @@
-import React from 'react'
-import ContainerFilms from './Components/ContainerFilms/ContainerFilms.jsx'
+import ContainerFilms from './RecentFilms/Components/ContainerFilms/ContainerFilms.jsx'
+import Hub from './Home/Components/Hub/Hub.jsx'
 import './App.css'
 
 function App() {
   return (
     <>
-    <h1 className='recent-films'>Most recent films</h1>
-    <ContainerFilms />
+    <Hub />
+    {/* <ContainerFilms  /> */}
     </>
   )
 }

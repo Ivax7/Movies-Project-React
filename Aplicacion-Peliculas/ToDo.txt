@@ -26,9 +26,32 @@ Añadir eventos
   - Ver resumen
   - Calificar
 
+{------------------------------------
 - Aplicar API films
-  - Limite de 10
-  - Ordenadas por fecha estreno
-- Renombrar las propiedades de los objetos para no depender si cambian en la API
-- Añadir elemento fecha
+  - Limite de 20 ✅
+  - Crear elemento fecha✅
+  - Ordenadas por fecha estreno y que no superen la fecha actual (Date.Today (con el localeTime) ya que salan pelis anunciadas pero aun no han salido)✅
+  - Evitar pelis repetidas✅
+  - Añadir elemento fecha✅
+  - Utilizar el film.id en lugar del index como key✅
+  - Ordenar por archivos✅
+  - Añadir el paginado✅
+  - filtro pelis
+    - verificar si existe una peli con el mismo id ✅
+    - fecha release < today ✅
+    - 12 de carga inicial, 6 de carga extra✅
+  - Añadir una imagen por defecto en caso de que no tenga imagen la peli✅
+  - Renombrar las propiedades de los objetos para no depender si cambian en la API✅
+  - Añadir el caché
+  - Aplicar filtros 
+  - Cambiarle el estilo a las pelis que salen pronto
+  - Añadir un botón que cambie el estilo de la web de claro a oscuro y viceversa con animación en el emoji
+-------------------------------------}
 
+- Crear página principal
+  - Abajo a la derecha una mini sección con esta parte que hagas: "click para ver todas y te lleve a esta página con todos los estrenos"
+
+- Aplicar el currentPath de midudev (7 react) para movernos entre páginas
+
+
+- ARREGLAR CSS .film-image, .film-container y .film-title con lo del hover a la imagen y no el container
