@@ -10,6 +10,7 @@ body {
   height: 100vh;
   margin: 0;
 }
+
 /* Container General */
 #container {
   display: flex;
@@ -23,32 +24,14 @@ nav {
   position: fixed;
   flex-direction: column;
   gap: 10px;
-  padding: 20px;
+  padding: 10px;
   background-color: #1c3350;
+  box-shadow: 5px 12px 12px rgba(0,0,0, 0.3);
   height: 100%;
   width: 250px;
-  z-index: 1;
-}
-
-.actions {
-  display: flex;
-  justify-content: space-between;
-  margin-bottom: 15px;
-}
-
-.black-mode button{
-  border-radius: 100%;
-}
-
-i {
-  color: white;
-  padding: 5px 8px;
-  font-size: 22px;
-  transition: all .2s ease-in-out;
-}
-
-.black-mode:hover i {
-  color: rgb(255, 233, 108);
+  z-index: 9999;
+  border-top-right-radius: 12px;
+  transition: transform 1s ease;
 }
 
 nav button {
@@ -59,6 +42,74 @@ nav button {
   transition: all .2s ease-in-out;
 }
 
+/**/
+
+/* Estilos para cuando el nav está oculto */
+nav.translate {
+  transform: translateX(-250px);
+}
+
+/* Ocultar el margen izquierdo cuando el nav está oculto */
+nav.translate ~ .main-content {
+  margin-left: 0;
+}
+
+
+.desplegable {
+  position: absolute; /* Cambia a absoluta cuando el nav se traduce */
+  top: 10px; /* Asegura que se mantenga alineado correctamente en la parte superior */
+  left: 260px; /* Ajusta la posición inicial al borde del nav */
+  transition: transform 0.3s ease, position 0.3s ease;
+}
+
+/* Cuando el nav está oculto, mover el botón 260px a la derecha */
+nav.translate .desplegable {
+  position: absolute; /* Cambia a absoluta cuando el nav se traduce */
+  top: 10px; /* Asegura que se mantenga alineado correctamente en la parte superior */
+  left: 260px; /* Ajusta la posición inicial al borde del nav */
+}
+
+/**/
+
+
+/* Contenido principal */
+.main-content {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  padding: 10px;
+  gap: 10px;
+  margin-left: 250px;
+  transition: margin-left 0.3s ease-in-out;
+}
+
+nav.translate ~ .main-content {
+  margin-left: 0;
+}
+
+.actions {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 15px;
+}
+
+.circular button {
+  border-radius: 100%;
+}
+
+i {
+  padding: 2px 4px;
+  font-size: 22px;
+  transition: all 0.2s ease-in-out;
+}
+
+.desplegable i {
+  padding: 2px 4px;
+}
+
+.black-mode:hover i {
+  color: rgb(255, 233, 108);
+}
 
 .selector {
   position: relative;
@@ -95,60 +146,121 @@ nav button {
   opacity: 1;
 }
 
-
 .log-in {
   margin-top: auto;
 }
 
 /* Contenido principal */
-main {
+.main-content {
   display: flex;
   flex-direction: column;
   flex: 1;
   padding: 10px;
   gap: 10px;
   margin-left: 250px;
+  transition: all .2s ease-in-out;
 }
-
+/* Asegúrate de que el contenedor ocupe el ancho completo */
 #top-section {
   display: flex;
   flex-direction: row;
-  gap: 10px;
+  gap: 8px;
   flex: 1;
+  width: 100%; /* Asegura que ocupe el ancho completo de la pantalla */
 }
 
-#review, #poster, #recent-films {
-  background-color: rgb(26, 26, 26);
-  padding: 5px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  text-align: center;
-}
-
+/* Ajusta el estilo del review */
 #review {
-  padding: 50px;
-}
-
-#review, #poster {
-  flex: 1;
+  flex: 1; /* Ocupa el espacio disponible */
   height: 500px;
   position: relative;
+  background-color: rgba(26, 26, 26, 0.589);
+  box-shadow: 5px 8px 15px rgba(0, 0, 0, 0.3);
+  border-radius: 12px;
+  display: flex;
+  flex-direction: row; /* Asegura que el contenido interno se distribuya en fila */
+  padding: 20px; /* Añade un poco de espacio interno */
+  justify-content: center;
+  align-items: center;
+}
+
+#review-text {
+  height: 400px;
+  padding: 10px;
+  padding-left: 0px;
+}
+
+.star-rating {
+  margin-top: 20px;
 }
 
 
 #poster img {
-  max-height: 400px;
+  min-width: 240px;
+  border-radius: 8px;
 }
+
+
+/* Estilo del carrousel */
+
+.classical-title {
+  text-align: center;
+}
+
+#carrousel {
+  flex: 1; /* Ocupa el espacio disponible */
+  height: 500px; /* Asegura que tenga la misma altura que el review */
+  padding: 10px; /* rgba(119, 24, 24, 0.527)de un poco de espacio interno */
+}
+
+/* Contenedor de las imágenes en el carrusel */
+.carrousel-films {
+  display: flex;
+  justify-content: center; /* Centra horizontalmente las imágenes */
+  align-items: center; /* Centra verticalmente las imágenes dentro del contenedor */
+}
+
+/* Estilo para las imágenes del carrusel */
+.carrousel-films img {
+  padding: 10px;
+  max-height: 100%; /* Limita la altura máxima para mantener la proporción */
+  object-fit: contain; /* Ajusta la imagen para que se ajuste dentro del contenedor sin distorsionarse */
+  height: 350px;
+}
+
+
+.left, .right {
+  width: 170px;
+}
+
+.classical-rating {
+  text-align: center;
+  margin-top: 0;
+}
+
+.classical-rating i{
+  font-size: 18px; /* Tamaño de las estrellas */
+}
+
+.left .classical-rating,
+.right .classical-rating {
+  top: -50px;
+}
+
 
 #recent-films {
+  position: relative;
+  border-radius: 10px;
+  background-color: rgb(26, 26, 26);
   flex: none;
   width: 100%;
-  padding-left: 50px;
   align-items: flex-start;
+  z-index: 1;
 }
 
-#recent-films h2 {
+.recent-title {
   margin-bottom: 10px;
+  padding-left: 110px;
 }
+
+

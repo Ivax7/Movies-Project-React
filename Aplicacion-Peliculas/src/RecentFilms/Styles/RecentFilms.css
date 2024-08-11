@@ -6,15 +6,12 @@
   width: 100%;
 }
 
-.recent-films {
-  text-align: center;
-  margin: 10px;
-}
 
-main {
+.container {
   display: flex;
   justify-content: center;
   width: 100%;
+  margin: 0;
 }
 
 .movies {
@@ -35,7 +32,7 @@ main {
   text-align: center;
   margin: 0 auto;
   width: 220px;
-  padding: 0 10px;
+  padding: 0 5px;
   position: relative;
   transition: all 0.2s ease-in-out;
 }
@@ -94,29 +91,9 @@ main {
 .star-rating {
   color: #fdd835; /* Color de las estrellas llenas */
   font-size: 1.2em; /* Tamaño de las estrellas */
-}
-
-.fa-star, .fa-star-half-alt {
-  margin-right: 2px; /* Espacio entre estrellas */
+  position: relative;
 }
 
 
-/* Media Query para dispositivos móviles */
-@media (max-width: 700px) {
-  .movies {
-    grid-template-columns: repeat(auto-fit, minmax(400px, 1fr)); /* Cambio a una sola columna */
-  }
 
-  .film-container {
-    width: 400px; /* Elimina el máximo ancho para que ocupe el 100% */
-  }
-
-  .film-title {
-    font-size: 22px;
-  }
-
-  .film-release {
-    font-size: 15px;
-  }
-}
 
