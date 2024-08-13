@@ -1,16 +1,16 @@
-// Film.jsx
 import { useFilms } from '../hooks/useFilms';
 import StarRating from '../StarRating/StarRating';
 
 function Film() {
   const { films, loading, fetchMoreFilms, totalPages, currentPage, hasError } = useFilms();
 
-  const handleLoadMore = () => {
-    fetchMoreFilms();
+  const handleLoadMore = (direction) => {
+    fetchMoreFilms(direction);
   };
 
   return (
     <main className='movies'>
+      <i className="fa-solid fa-arrow-right nav-arrow left-arrow" onClick={() => handleLoadMore('prev')} disabled={loading || currentPage <= 2}></i>
       {films.map(film => (
         <div key={film.id} className={`film-container`}>
           <img
@@ -29,7 +29,8 @@ function Film() {
       ))}
       {loading && <p>Loading...</p>}
       {!loading && !hasError && currentPage <= totalPages && (
-        <button className='more-films' onClick={handleLoadMore} disabled={loading}>Cargar más películas</button>
+      <i className="fa-solid fa-arrow-right nav-arrow right-arrow" onClick={() => handleLoadMore('next')} disabled={loading || currentPage > totalPages}></i>
+
       )}
       {!loading && !hasError && currentPage > totalPages && (
         <p>No hay más películas para cargar</p>

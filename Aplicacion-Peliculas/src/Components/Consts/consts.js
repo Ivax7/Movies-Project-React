@@ -6,7 +6,7 @@ const BASE_URL = `https://api.themoviedb.org/3/discover/movie?api_key=${API_KEY}
 
 const CONSTANTS = {
   BASE_URL,
-  FILMS_PER_PAGE: 10, // Número de películas por página
+  FILMS_PER_PAGE: 5, // Número de películas por página
   FILMS_PER_LOAD_MORE: 5 // Número de películas que cargan
 };
 

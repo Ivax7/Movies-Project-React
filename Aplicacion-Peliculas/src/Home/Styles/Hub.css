@@ -190,11 +190,15 @@ i {
   padding-left: 0px;
 }
 
-.star-rating {
+#review-text .star-rating {
   margin-top: 20px;
+} 
+
+#poster {
+  display: flex;
+  align-items: center;
+  height: 100%;
 }
-
-
 #poster img {
   min-width: 240px;
   border-radius: 8px;
@@ -213,45 +217,68 @@ i {
   padding: 10px; /* rgba(119, 24, 24, 0.527)de un poco de espacio interno */
 }
 
-/* Contenedor de las imágenes en el carrusel */
+/* Estilo original del carrusel */
+
 .carrousel-films {
   display: flex;
   justify-content: center; /* Centra horizontalmente las imágenes */
   align-items: center; /* Centra verticalmente las imágenes dentro del contenedor */
+  position: relative;
+  width: 100%; /* Ajusta el ancho según tus necesidades */
+  height: 80%;
+}
+
+.carrousel-films .film {
+  position: absolute;
+  transition: transform 1s ease-in-out, opacity 1s ease-in-out;
+
+}
+
+.left {
+  transform: translateX(-100%) scale(0.8);
+  opacity: 0.8;
+}
+
+.center {
+  transform: translateX(0) scale(1);
+  z-index: 10;
+  opacity: 1;
+}
+
+.right {
+  transform: translateX(100%) scale(0.8);
+  opacity: 0.8;
 }
 
 /* Estilo para las imágenes del carrusel */
 .carrousel-films img {
   padding: 10px;
-  max-height: 100%; /* Limita la altura máxima para mantener la proporción */
+  max-height: 350px; /* Limita la altura máxima para mantener la proporción */
   object-fit: contain; /* Ajusta la imagen para que se ajuste dentro del contenedor sin distorsionarse */
-  height: 350px;
+  height: auto;
+  cursor: pointer;
+  border-radius: 18px;
 }
 
-
-.left, .right {
-  width: 170px;
+/* Estilo original */
+.classical-title {
+  text-align: center;
 }
 
 .classical-rating {
   text-align: center;
   margin-top: 0;
+  top: -10px;
 }
 
 .classical-rating i{
-  font-size: 18px; /* Tamaño de las estrellas */
-}
-
-.left .classical-rating,
-.right .classical-rating {
-  top: -50px;
+  font-size: 16px; /* Tamaño de las estrellas */
 }
 
 
 #recent-films {
   position: relative;
-  border-radius: 10px;
-  background-color: rgb(26, 26, 26);
+  background: linear-gradient(to top, transparent 0%, rgb(15, 15, 15) 50%, transparent 100%);
   flex: none;
   width: 100%;
   align-items: flex-start;
@@ -260,7 +287,9 @@ i {
 
 .recent-title {
   margin-bottom: 10px;
+  margin-top: 50px;
   padding-left: 110px;
 }
+
 
 

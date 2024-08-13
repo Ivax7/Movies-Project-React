@@ -12,24 +12,18 @@ export function useFilms() {
   const fetchFilms = async (page) => {
     setLoading(true);
     try {
-      console.log(`Cargando películas de la página ${page}...`);
       const response = await fetch(`${CONSTANTS.BASE_URL}&page=${page}`);
       const data = await response.json();
 
       if (data.results) {
-        console.log('Se encontraron resultados en la respuesta de la API');
-        console.log('Resultados:', data.results);
-
-        // Mapear resultados a propiedades transformadas
-        const transformedFilms = data.results.map(transformFilm); // Transformar cada película
-        const totalPages = data.total_pages || 0; // Obtener el total de páginas
+        const transformedFilms = data.results.map(transformFilm);
+        const totalPages = data.total_pages || 0;
 
         return {
           films: transformedFilms,
           totalPages
         };
       } else {
-        console.error('No se encontraron resultados en la respuesta de la API');
         setHasError(true);
         return {
           films: [],
@@ -51,14 +45,13 @@ export function useFilms() {
   const filterFilmsByReleaseDate = (filmsToFilter) => {
     const today = new Date();
     return filmsToFilter.filter(film => {
-      const releaseDate = new Date(film.releaseDate); // Usar el nombre transformado
+      const releaseDate = new Date(film.releaseDate);
       return releaseDate <= today;
     });
   };
 
   useEffect(() => {
     const loadInitialFilms = async () => {
-      console.log('Cargando películas iniciales...');
       const { films: initialFilms, totalPages: initialTotalPages } = await fetchFilms(1);
       const filteredInitialFilms = filterFilmsByReleaseDate(initialFilms);
       setFilms(filteredInitialFilms.slice(0, CONSTANTS.FILMS_PER_PAGE));
@@ -69,13 +62,15 @@ export function useFilms() {
     loadInitialFilms();
   }, []);
 
-  const fetchMoreFilms = async () => {
-    if (!loading && currentPage <= totalPages) {
-      const { films: additionalFilms } = await fetchFilms(currentPage);
-      const filteredAdditionalFilms = filterFilmsByReleaseDate(additionalFilms);
-      
-      setFilms(prevFilms => [...prevFilms, ...filteredAdditionalFilms.slice(0, CONSTANTS.FILMS_PER_LOAD_MORE)]);
-      setCurrentPage(prevPage => prevPage + 1);
+  const fetchMoreFilms = async (direction = 'next') => {
+    if (!loading) {
+      const newPage = direction === 'next' ? currentPage : currentPage - 2;
+      if (newPage > 0 && newPage <= totalPages) {
+        const { films: newFilms } = await fetchFilms(newPage);
+        const filteredNewFilms = filterFilmsByReleaseDate(newFilms);
+        setFilms(filteredNewFilms.slice(0, CONSTANTS.FILMS_PER_PAGE));
+        setCurrentPage(direction === 'next' ? currentPage + 1 : currentPage - 1);
+      }
     }
   };
 

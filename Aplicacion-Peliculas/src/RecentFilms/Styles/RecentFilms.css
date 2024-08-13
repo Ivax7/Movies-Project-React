@@ -14,24 +14,71 @@
   margin: 0;
 }
 
+
+.more-films {
+  position: absolute;
+  bottom: 0;
+  width: 40%;
+  left: 50%;
+  margin-left: -20%; /* La mitad del ancho para centrarlo */
+  text-align: center; /* Asegúrate de que el contenido del botón esté centrado */
+}
+
 .movies {
+  position: relative;
   list-style: none;
   margin: 0;
   padding: 0;
   margin-top: 20px;
   margin-bottom: 50px;
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); /* Ajuste para columnas */
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
   width: 90%;
-  row-gap: 30px; /* Aumenta el espacio entre filas */
-  column-gap: 20px; /* Espacio entre columnas */
-  align-items: start; /* Alinea los elementos al inicio de la fila */
+  row-gap: 30px;
+  column-gap: 20px;
+  align-items: start;
 }
+
+.nav-arrow {
+  position: absolute;
+  top: 50%;
+  border-radius: 100%;
+  transform: translateY(-50%); /* Centra verticalmente */
+  background-color: rgba(0, 0, 0, 0.5);
+  color: white;
+  border: none;
+  cursor: pointer;
+  font-size: 24px;
+  padding: 16px;
+  z-index: 10;
+  transition: all 0.4s ease;
+}
+
+.nav-arrow:hover {
+  background-color: rgba(0, 0, 0, 0.8);
+  transform: scale(1.2) translateY(-50%);
+}
+
+
+.left-arrow {
+  left: -50px;
+  transform: translateY(-50%) rotate(180deg); /* Añade rotación de 180 grados */
+}
+
+.left-arrow:hover {
+  transform: scale(1.2) translateY(-50%) rotate(180deg);
+}
+
+.right-arrow {
+  right: -50px;
+}
+
 
 .film-container {
   text-align: center;
   margin: 0 auto;
   width: 220px;
+  height: 385px;
   padding: 0 5px;
   position: relative;
   transition: all 0.2s ease-in-out;
@@ -44,7 +91,7 @@
 
 .film-image {
   width: 100%;
-  height: auto; /* Se ajustará automáticamente a la altura de la imagen */
+  height: auto;
   border-radius: 8px;
   cursor: pointer;
   transition: all 0.2s ease-in-out;
@@ -71,29 +118,21 @@
   font-weight: bold;
 }
 
-
 .film-container:hover .film-title {
   visibility: visible;
   opacity: 1;
 }
-
-.more-films {
-  position: absolute;
-  bottom: 0;
-  width: 40%;
-  left: 50%;
-  margin-left: -20%; /* La mitad del ancho para centrarlo */
-  text-align: center; /* Asegúrate de que el contenido del botón esté centrado */
-}
-
 
 /* Estilos para las estrellas */
 .star-rating {
   color: #fdd835; /* Color de las estrellas llenas */
   font-size: 1.2em; /* Tamaño de las estrellas */
   position: relative;
+  margin-top: 0;
 }
 
-
+.star-rating i{
+font-size: 18px;
+}
 
 
