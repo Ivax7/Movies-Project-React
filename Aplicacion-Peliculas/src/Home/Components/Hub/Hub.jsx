@@ -3,13 +3,11 @@ import React from 'react';
 import "../../Styles/Hub.css";
 import ContainerFilms from "../../../RecentFilms/Components/ContainerFilms/ContainerFilms";
 import { useNavToggle } from '../hooks/nav';
-import useRandomHighRatedMovie from '../hooks/randomReview';
 import RandomHighRatedMovie from '../hooks/randomReview';
 import CarrouselFilms from '../hooks/carrousel';
 
 function Hub() {
   const { isTranslated, handleToggle } = useNavToggle();
-  const movie = useRandomHighRatedMovie(); // Obteniendo la película aleatoria
 
   return (
     <div id="container">
@@ -30,7 +28,6 @@ function Hub() {
         <button className="selector"><i className="fa-solid fa-house"></i><span>Home</span></button>
         <button className="selector"><i className="fa-solid fa-magnifying-glass"></i><span>Search</span></button>
         <button className="selector"><i className="fa-solid fa-film"></i><span>Lists</span></button>
-        <button className="selector"><i className="fa-solid fa-shuffle"></i><span>Random</span></button>
         <button className="selector log-in"><i className="fa-solid fa-right-to-bracket"></i><span>Log-in</span></button>
       </nav>
 
