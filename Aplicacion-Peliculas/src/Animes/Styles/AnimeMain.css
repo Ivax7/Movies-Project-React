@@ -1,0 +1,60 @@
+
+
+.anime-nav {
+  display: flex;
+  position: relative;
+  width: 98%;
+  border-radius: 18px;
+  flex-direction: row;
+  top: 50px;
+  margin-left: 20px;
+  background-color: aquamarine;
+  justify-content: space-between;
+  align-items: center;
+  text-align: center;
+  padding-inline: 100px;
+}
+
+.nav-section {
+  position: relative;
+  width: 400px;
+  justify-content: center;
+  align-items: center;
+}
+
+.main-header {
+  display: flex;
+  justify-content: center;
+}
+
+h2 {
+  background-color: aqua;
+  border-radius: 10px;
+  padding: 10px;
+  margin-top: 10px;
+  width: 200px;
+}
+
+
+.categories {
+  display: flex;
+  flex-direction: row;
+  width: 400px;
+  justify-content: space-between;
+}
+
+.logo {
+  display: flex;
+  align-items: center;
+}
+
+.logo i {
+  font-size: 80px;
+  padding: 10px;
+  transform: rotate(45deg);
+}
+
+
+
+
+

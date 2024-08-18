@@ -165,7 +165,14 @@ i {
   opacity: 1;
 }
 
-.log-in {
+.one-piece {
+  width: 30px;
+  border-radius: 50%;
+  display: flex;
+  filter: saturate(0)  
+}
+
+.log-off {
   margin-top: auto;
 }
 
