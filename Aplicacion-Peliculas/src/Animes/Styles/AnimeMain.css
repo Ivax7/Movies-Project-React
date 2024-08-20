@@ -6,13 +6,16 @@
   width: 98%;
   border-radius: 18px;
   flex-direction: row;
-  top: 50px;
   margin-left: 20px;
   background-color: aquamarine;
+  background-image: url("https://assets.vg247.com/current//2014/01/20140106_inazuma_eleven.jpg");
+  background-size: cover;
+  background-position: center;
   justify-content: space-between;
   align-items: center;
   text-align: center;
   padding-inline: 100px;
+  height: 120px;
 }
 
 .nav-section {
@@ -27,20 +30,19 @@
   justify-content: center;
 }
 
-h2 {
-  background-color: aqua;
+.main-header h2{
+  background-color: rgb(0, 255, 242);
   border-radius: 10px;
   padding: 10px;
-  margin-top: 10px;
-  width: 200px;
+  font-size: 16px;
 }
-
 
 .categories {
   display: flex;
   flex-direction: row;
-  width: 400px;
   justify-content: space-between;
+  background-color: red;
+  font-size: 12px;
 }
 
 .logo {
@@ -54,7 +56,203 @@ h2 {
   transform: rotate(45deg);
 }
 
+/* Estilo general del contenedor principal */
+#container {
+  display: flex;
+  height: 100vh;
+  flex-direction: column;
+}
+
+/**/
+.main-content {
+  display: flex;
+  flex: 1;
+}
+
+.main-anime {
+  padding-inline: 150px;
+  padding-top: 50px;
+}
+/**/
+
+.logo {
+  text-align: center;
+  font-size: 2rem;
+}
+
+/* Contenedor principal del contenido de anime */
+#main-anime-content {
+  display: flex;
+  flex: 1;
+  padding: 20px;
+  gap: 20px; /* Espacio entre columnas */
+}
+
+/* Sección izquierda con los artículos */
+.left-section {
+  flex: 3; /* Esta columna ocupará más espacio */
+  display: flex;
+  flex-direction: column;
+  gap: 20px; /* Espacio entre artículos */
+}
+
+/* Sección derecha para "Most Popular" */
+.right-section {
+  flex: 1; /* Esta columna ocupará menos espacio */
+  display: flex;
+  flex-direction: column;
+}
+
+/* Otros estilos se mantienen como antes */
+.new-animes,
+.anime-films-ovas,
+.popular-animes {
+  padding: 10px;
+  border: 1px solid #ccc;
+}
+
+.new-animes {
+  position: relative;
+}
+
+.anime-arrow {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%); /* Centra verticalmente */
+  background-color: rgba(0, 0, 0, 0.5);
+  color: white;
+  border: none;
+  z-index: 10;
+  width: 20px; /* Ajusta según sea necesario */
+  height: 20px; /* Ajusta según sea necesario */
+  background-color: #00aaff; /* Color de fondo */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transform: rotate(45deg); /* Rotación para crear el rombo */
+  transition: all 0.4s ease;
+  cursor: pointer;
+}
+
+/* Estilo para el icono dentro de la flecha */
+.anime-arrow i {
+  color: white;
+  font-size: 12px;
+}
 
 
+#left-arrow {
+  transform: translateX(50px) rotate(135deg);
+}
+
+#left-arrow:hover {
+  transform: translateX(50px) rotate(135deg) scale(1.1);
+}
+
+#left-arrow i{
+  transform: rotate(-135deg); /* Rotar el icono en la dirección opuesta para que quede horizontal */
+}
+
+#right-arrow {
+  transform: translateX(-50px) rotate(-45deg);
+}
+
+#right-arrow:hover {
+  transform: translateX(-50px) rotate(-45deg) scale(1.1);
+}
+
+#right-arrow i{
+  transform: rotate(45deg); /* Rotar el icono en la dirección opuesta para que quede horizontal */
+}
+
+/* Contenedor principal del contenido de anime */
+.anime-information-container {
+  position: relative;
+  overflow: hidden; /* Oculta cualquier desbordamiento de las imágenes */
+  height: 160px; /* Ajusta según el tamaño deseado */
+  width: 100%;
+}
+
+/* Información del anime */
+.anime-information {
+  display: flex;
+  align-items: center;
+  position: absolute;
+  width: 100%;
+  transition: opacity 0.5s ease-in-out;
+  opacity: 0; /* Inicialmente oculta */
+  z-index: 1; /* Asegúrate de que esté por encima de otros elementos */
+}
+
+.anime-information.active {
+  opacity: 1; /* Visible cuando tiene la clase 'active' */
+}
+
+.information-title {
+  color: #e2e2e2;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5); /* Sombra de texto */
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  padding-left: 30px;
+  padding-top: 20px;
+  background: linear-gradient(to bottom, rgba(10, 10, 10, 0.5), transparent);
+  border-radius: 12px;
+  box-sizing: border-box; /* Asegura que el padding no afecte el tamaño */
+}
+
+.anime-information h4 {
+  font-size: 26px;
+}
+
+.anime-information h5 {
+  font-size: 16px;
+  color: var(--color-red);
+}
+
+.anime-information img {
+  height: 100%;
+  width: 100%; /* Asegura que la imagen ocupe todo el contenedor */
+  border-radius: 12px;
+  object-fit: cover;
+}
+
+.rank {
+  margin-right: 10px;
+}
+
+.like-button,
+.save-button {
+  margin-left: 10px;
+}
 
 
+.pagination-dots {
+  display: flex;
+  justify-content: center;
+  position: absolute;
+  bottom: 18px;
+  left: 50%;
+  z-index: 99999999;
+  transform: translateX(-50%);
+}
+
+.dot {
+  height: 6px; /* Tamaño del círculo */
+  width: 6px;  /* Tamaño del círculo */
+  margin: 0 4px; /* Espacio entre los círculos */
+  background-color: #fffedf; /* Color de fondo blanco */
+  border-radius: 50%; /* Forma circular */
+  display: inline-block;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.3s ease; /* Animación suave */
+}
+
+.dot.active {
+  background-color: #00aaff; /* Color de fondo */
+  transform: scale(1.2); /* Aumenta el tamaño del círculo activo */
+}
+
+.dot:hover {
+  background-color: #00699e; /* Color del círculo activo */
+}

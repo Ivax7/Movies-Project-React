@@ -10,7 +10,7 @@ function Film() {
 
   return (
     <main className='movies'>
-      <i className="fa-solid fa-arrow-right nav-arrow left-arrow" onClick={() => handleLoadMore('prev')} disabled={loading || currentPage <= 2}></i>
+      <i className="fa-solid fa-arrow-right arrow left-arrow" onClick={() => handleLoadMore('prev')} disabled={loading || currentPage <= 2}></i>
       {films.map(film => (
         <div key={film.id} className={`film-container`}>
           <img
@@ -29,7 +29,7 @@ function Film() {
       ))}
       {loading && <p>Loading...</p>}
       {!loading && !hasError && currentPage <= totalPages && (
-      <i className="fa-solid fa-arrow-right nav-arrow right-arrow" onClick={() => handleLoadMore('next')} disabled={loading || currentPage > totalPages}></i>
+      <i className="fa-solid fa-arrow-right arrow right-arrow" onClick={() => handleLoadMore('next')} disabled={loading || currentPage > totalPages}></i>
 
       )}
       {!loading && !hasError && currentPage > totalPages && (
