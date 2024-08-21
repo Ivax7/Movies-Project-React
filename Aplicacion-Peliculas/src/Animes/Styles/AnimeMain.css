@@ -7,15 +7,33 @@
   border-radius: 18px;
   flex-direction: row;
   margin-left: 20px;
-  background-color: aquamarine;
-  background-image: url("https://assets.vg247.com/current//2014/01/20140106_inazuma_eleven.jpg");
-  background-size: cover;
+  background-image: url("https://imgs.search.brave.com/K9nBhaXsSw2pmLciGrGKu8un97DMhzoavyEChMfyaRs/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly9tLm1l/ZGlhLWFtYXpvbi5j/b20vaW1hZ2VzL0kv/NjFSU05KTjhKb0wu/anBn");
+  background-size: contain; /* Cambié de contain a cover para que ocupe todo el contenedor */
   background-position: center;
   justify-content: space-between;
   align-items: center;
   text-align: center;
   padding-inline: 100px;
   height: 120px;
+  overflow: hidden; /* Asegura que el pseudo-elemento no desborde el contenedor */
+}
+
+/* Pseudo-elemento para la capa oscura */
+.anime-nav::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5); /* Ajusta la opacidad para oscurecer */
+  z-index: 1; /* Coloca la capa por encima de la imagen de fondo */
+  border-radius: 18px; /* Asegúrate de que coincida con el borde del contenedor */
+}
+
+.anime-nav * {
+  position: relative;
+  z-index: 2; /* Coloca el contenido por encima de la capa oscura */
 }
 
 .nav-section {
@@ -23,6 +41,7 @@
   width: 400px;
   justify-content: center;
   align-items: center;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5); /* Sombra de texto */
 }
 
 .main-header {
@@ -30,24 +49,43 @@
   justify-content: center;
 }
 
-.main-header h2{
-  background-color: rgb(0, 255, 242);
+.type {
   border-radius: 10px;
   padding: 10px;
   font-size: 16px;
+  cursor: pointer;
+  transition: all .2s ease-in-out;
+}
+
+.type:hover {
+  color: var(--color-letter-hover);
 }
 
 .categories {
   display: flex;
   flex-direction: row;
   justify-content: space-between;
-  background-color: red;
+  background-color: linear-gradient(to right, var(--color-red), transparent);
+  background: linear-gradient(0.25turn, transparent,  var(--color-red), transparent);
+  padding: 5px 15px;
   font-size: 12px;
 }
 
+.categories h3 {
+  transition: all .2s ease-in-out;
+  cursor: pointer;
+}
+
+.categories h3:hover {
+  color: var(--color-letter-hover);
+}
+
 .logo {
+  width: 100px;
+  filter: drop-shadow(12px 12px 12px rgba(0, 0, 0, 0.5));
   display: flex;
   align-items: center;
+  color: black;
 }
 
 .logo i {
@@ -70,7 +108,7 @@
 }
 
 .main-anime {
-  padding-inline: 150px;
+  padding-inline: 220px;
   padding-top: 50px;
 }
 /**/
@@ -80,7 +118,6 @@
   font-size: 2rem;
 }
 
-/* Contenedor principal del contenido de anime */
 #main-anime-content {
   display: flex;
   flex: 1;
@@ -88,7 +125,6 @@
   gap: 20px; /* Espacio entre columnas */
 }
 
-/* Sección izquierda con los artículos */
 .left-section {
   flex: 3; /* Esta columna ocupará más espacio */
   display: flex;
@@ -96,18 +132,17 @@
   gap: 20px; /* Espacio entre artículos */
 }
 
-/* Sección derecha para "Most Popular" */
 .right-section {
   flex: 1; /* Esta columna ocupará menos espacio */
   display: flex;
   flex-direction: column;
 }
 
+
 /* Otros estilos se mantienen como antes */
 .new-animes,
 .anime-films-ovas,
 .popular-animes {
-  padding: 10px;
   border: 1px solid #ccc;
 }
 
@@ -123,8 +158,8 @@
   color: white;
   border: none;
   z-index: 10;
-  width: 20px; /* Ajusta según sea necesario */
-  height: 20px; /* Ajusta según sea necesario */
+  width: 30px; /* Ajusta según sea necesario */
+  height: 30px; /* Ajusta según sea necesario */
   background-color: #00aaff; /* Color de fondo */
   display: flex;
   justify-content: center;
@@ -137,16 +172,16 @@
 /* Estilo para el icono dentro de la flecha */
 .anime-arrow i {
   color: white;
-  font-size: 12px;
+  font-size: 16px;
 }
 
 
 #left-arrow {
-  transform: translateX(50px) rotate(135deg);
+  transform: translateX(35px) rotate(135deg);
 }
 
 #left-arrow:hover {
-  transform: translateX(50px) rotate(135deg) scale(1.1);
+  transform: translateX(35px) rotate(135deg) scale(1.1);
 }
 
 #left-arrow i{
@@ -154,11 +189,11 @@
 }
 
 #right-arrow {
-  transform: translateX(-50px) rotate(-45deg);
+  transform: translateX(-35px) rotate(-45deg);
 }
 
 #right-arrow:hover {
-  transform: translateX(-50px) rotate(-45deg) scale(1.1);
+  transform: translateX(-35px) rotate(-45deg) scale(1.1);
 }
 
 #right-arrow i{
@@ -169,7 +204,7 @@
 .anime-information-container {
   position: relative;
   overflow: hidden; /* Oculta cualquier desbordamiento de las imágenes */
-  height: 160px; /* Ajusta según el tamaño deseado */
+  height: 208px; /* Ajusta según el tamaño deseado */
   width: 100%;
 }
 
@@ -231,21 +266,22 @@
   display: flex;
   justify-content: center;
   position: absolute;
-  bottom: 18px;
+  bottom: 10px;
   left: 50%;
   z-index: 99999999;
   transform: translateX(-50%);
 }
 
 .dot {
-  height: 6px; /* Tamaño del círculo */
-  width: 6px;  /* Tamaño del círculo */
+  height: 8px; /* Tamaño del círculo */
+  width: 8px;  /* Tamaño del círculo */
   margin: 0 4px; /* Espacio entre los círculos */
   background-color: #fffedf; /* Color de fondo blanco */
   border-radius: 50%; /* Forma circular */
   display: inline-block;
   cursor: pointer;
   transition: background-color 0.3s ease, transform 0.3s ease; /* Animación suave */
+  box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.5);
 }
 
 .dot.active {
@@ -255,4 +291,31 @@
 
 .dot:hover {
   background-color: #00699e; /* Color del círculo activo */
+}
+
+
+
+
+
+
+
+/* OVAS */
+.anime-films-ovas h4 {
+  padding: 10px;
+  background-color: #00699e;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5); /* Sombra de texto */
+}
+
+.ovas-content {
+  display: flex;
+  justify-content: center;
+  align-items: start;
+  gap: 20px;
+  margin-top: 15px;
+}
+
+.ova-item {
+  width: 100px;
+  font-size: 12px;
+
 }

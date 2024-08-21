@@ -1,69 +1,89 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import Nav from '../../../Home/Components/hooks/Nav';
 import { useNavigate } from 'react-router-dom';
 import '../../Styles/AnimeMain.css';
 
 function AnimeMain() {
   const [animes, setAnimes] = useState([]);
+  const [ovas, setOvas] = useState([]);  // Estado para los OVAs, películas y especiales
   const [currentIndex, setCurrentIndex] = useState(0);
-  const [nextPage, setNextPage] = useState(null);
   const [isAnimating, setIsAnimating] = useState(false);
   const navigate = useNavigate();
 
   function goToHub() {
-    navigate('/'); 
+    navigate('/');
   }
 
   function goToAnimes() {
-    navigate('/animes'); 
+    navigate('/animes');
   }
 
   const fetchAnimes = (url) => {
-    fetch(url)
-      .then(response => response.json())
-      .then(data => {
-        const filteredAnimes = data.data.filter(anime => {
-          const status = anime.attributes.status;
-          const startDate = new Date(anime.attributes.startDate);
-          const currentDate = new Date();
+    // Verificar si los animes ya están en caché
+    const cachedAnimes = localStorage.getItem('cachedAnimes');
+    if (cachedAnimes) {
+      const cachedData = JSON.parse(cachedAnimes);
+      // Solo toma los primeros 10 animes de la caché si existen
+      setAnimes(cachedData.slice(0, 10));
+    } else {
+      fetch(url)
+        .then(response => response.json())
+        .then(data => {
+          const filteredAnimes = data.data.filter(anime => {
+            const status = anime.attributes.status;
+            const startDate = new Date(anime.attributes.startDate);
+            const currentDate = new Date();
 
-          return (
-            (status === 'current' || status === 'upcoming') && 
-            startDate <= currentDate && 
-            anime.attributes.coverImage && anime.attributes.titles.en
-          );
-        });
+            return (
+              (status === 'current' || status === 'upcoming') &&
+              startDate <= currentDate &&
+              anime.attributes.coverImage && anime.attributes.titles.en
+            );
+          });
 
-        console.log("Animes filtrados (más recientes):", filteredAnimes);
+          // Solo guarda los primeros 10 animes en caché
+          const top10Animes = filteredAnimes.slice(0, 10);
+          localStorage.setItem('cachedAnimes', JSON.stringify(top10Animes)); // Guardar en caché
+          setAnimes(top10Animes);
+        })
+        .catch(error => console.error('Error fetching animes:', error));
+    }
+  };
 
-        if (filteredAnimes.length > 0) {
-          setAnimes(prevAnimes => [...prevAnimes, ...filteredAnimes]);
+  const fetchOvas = (url, accumulatedOvas = []) => {
+    // Verificar si los OVAs ya están en caché
+    const cachedOvas = localStorage.getItem('cachedOvas');
+    if (cachedOvas) {
+      setOvas(JSON.parse(cachedOvas));
+    } else {
+      fetch(url)
+        .then(response => response.json())
+        .then(data => {
+          const filteredOvas = data.data.filter(anime => {
+            const subtype = anime.attributes.subtype;
+            const startDate = new Date(anime.attributes.startDate);
+            const currentDate = new Date();
 
-          // Guardar en caché
-          localStorage.setItem('cachedAnimes', JSON.stringify([...animes, ...filteredAnimes]));
-        }
+            return (
+              (subtype === 'ONA' || subtype === 'Movie' || subtype === 'Special') &&
+              startDate <= currentDate &&
+              anime.attributes.coverImage && anime.attributes.titles.en
+            );
+          });
 
-        if (animes.length + filteredAnimes.length < 10 && data.links.next) {
-          setNextPage(data.links.next);
-        }
-      })
-      .catch(error => console.error('Error:', error));
+          // Solo guarda los primeros 10 OVAs en caché
+          const top10Ovas = filteredOvas.slice(0, 10);
+          localStorage.setItem('cachedOvas', JSON.stringify(top10Ovas)); // Guardar en caché
+          setOvas(top10Ovas);
+        })
+        .catch(error => console.error('Error fetching OVAs:', error));
+    }
   };
 
   useEffect(() => {
-    const cachedAnimes = localStorage.getItem('cachedAnimes');
-    if (cachedAnimes) {
-      setAnimes(JSON.parse(cachedAnimes));
-    } else {
-      fetchAnimes("https://kitsu.io/api/edge/anime?sort=-startDate");
-    }
+    fetchAnimes("https://kitsu.io/api/edge/anime?sort=-startDate&limit=10"); // Limitar a 10 resultados
+    fetchOvas("https://kitsu.io/api/edge/anime?sort=-startDate&limit=10"); // Limitar a 10 resultados
   }, []);
-
-  useEffect(() => {
-    if (nextPage && animes.length < 10) {
-      fetchAnimes(nextPage);
-    }
-  }, [nextPage, animes]);
 
   const goToPreviousAnime = () => {
     if (!isAnimating) {
@@ -103,7 +123,7 @@ function AnimeMain() {
         <nav className="anime-nav">
           <section className="animes nav-section">
             <div className="main-header">
-              <h2 id="animes-header type">Animes</h2>
+              <h2 className="animes-header type">Animes</h2>
             </div>
             <div className="categories">
               <h3>Liked</h3>
@@ -111,10 +131,12 @@ function AnimeMain() {
               <h3>Lists</h3>
             </div>
           </section>
-          <div className="logo"><i className="fa-brands fa-slack"></i></div>
+          <div className="logo">
+            <img src="https://imgs.search.brave.com/WMdhY3nR2Q7crN4VFsbPqghbZCKAZrt8AVCldx7SyTE/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly93d3cu/cG5nYWxsLmNvbS93/cC1jb250ZW50L3Vw/bG9hZHMvMTMvT25l/LVBpZWNlLUxvZ28t/UE5HLVBpY3R1cmUu/cG5n" alt="logo página" />
+          </div>
           <section className="mangas nav-section">
             <div className="main-header">
-              <h2 id="mangas-header header">Mangas</h2>
+              <h2 className="mangas-header type">Mangas</h2>
             </div>
             <div className="categories">
               <h3>Liked</h3>
@@ -165,6 +187,21 @@ function AnimeMain() {
             )}
             <article className='anime-films-ovas'>
               <h4>Anime Films / OVAS / Specials</h4>
+              <div className="ovas-content">
+                {ovas.length > 0 ? (
+                  ovas.map((ova, index) => (
+                    <div key={index} className="ova-item">
+                      <img 
+                        src={ova.attributes.posterImage.small} 
+                        alt={ova.attributes.titles.en || ova.attributes.titles.ja_jp} 
+                        />
+                        <h5>{ova.attributes.titles.en || ova.attributes.titles.ja_jp}</h5>
+                    </div>
+                  ))
+                ) : (
+                  <p>Cargando OVAs, películas y especiales recientes...</p>
+                )}
+              </div>
               <div className="see-more"><i className="fa-solid fa-plus"></i></div>
             </article>
           </div>
