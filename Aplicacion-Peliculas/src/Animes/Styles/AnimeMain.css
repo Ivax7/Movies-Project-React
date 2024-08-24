@@ -3,10 +3,9 @@
 .anime-nav {
   display: flex;
   position: relative;
-  width: 98%;
+  width: 100%;
   border-radius: 18px;
   flex-direction: row;
-  margin-left: 20px;
   background-image: url("https://imgs.search.brave.com/K9nBhaXsSw2pmLciGrGKu8un97DMhzoavyEChMfyaRs/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly9tLm1l/ZGlhLWFtYXpvbi5j/b20vaW1hZ2VzL0kv/NjFSU05KTjhKb0wu/anBn");
   background-size: contain; /* Cambié de contain a cover para que ocupe todo el contenedor */
   background-position: center;
@@ -111,6 +110,7 @@
   padding-inline: 220px;
   padding-top: 50px;
 }
+
 /**/
 
 .logo {
@@ -125,17 +125,20 @@
   gap: 20px; /* Espacio entre columnas */
 }
 
+/* Ajuste para las secciones izquierda y derecha */
 .left-section {
-  flex: 3; /* Esta columna ocupará más espacio */
   display: flex;
   flex-direction: column;
   gap: 20px; /* Espacio entre artículos */
+  min-width: 200px; /* Ancho mínimo para la sección izquierda */
 }
 
+
 .right-section {
-  flex: 1; /* Esta columna ocupará menos espacio */
   display: flex;
+  flex: 1;
   flex-direction: column;
+  min-width: 200px; /* Ancho mínimo para la sección derecha */
 }
 
 
@@ -204,7 +207,7 @@
 .anime-information-container {
   position: relative;
   overflow: hidden; /* Oculta cualquier desbordamiento de las imágenes */
-  height: 208px; /* Ajusta según el tamaño deseado */
+  height: 231px; /* Ajusta según el tamaño deseado */
   width: 100%;
 }
 
@@ -294,11 +297,6 @@
 }
 
 
-
-
-
-
-
 /* OVAS */
 .anime-films-ovas h4 {
   padding: 10px;
@@ -311,11 +309,35 @@
   justify-content: center;
   align-items: start;
   gap: 20px;
-  margin-top: 15px;
+  padding-top: 15px;
+  padding-inline: 20px;
+  flex-wrap: wrap;
 }
 
 .ova-item {
-  width: 100px;
+  width: 150px;
   font-size: 12px;
+  cursor: pointer;
+}
 
+.ova-item h5 {
+  margin-top: 10px;
+}
+
+.ova-item img {
+  box-shadow: 4px 4px 4px rgba(0, 0, 0, 0.5);
+  transition: all .3s ease-in-out;
+}
+
+.ova-item:hover img {
+  transform: scale(1.1);
+}
+
+.see-more {
+  text-align: center;
+}
+
+.see-more i {
+  font-size: 40px;
+  cursor: pointer;
 }
