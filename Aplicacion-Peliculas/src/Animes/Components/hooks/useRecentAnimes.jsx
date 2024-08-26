@@ -83,11 +83,56 @@ export function useRecentAnimes() {
     }
   }, [isAnimating]);
 
-  return {
-    animes,
-    currentIndex,
-    goToPreviousAnime,
-    goToNextAnime,
-    goToAnime,
-  };
+  // Retornamos el JSX directamente
+  return (
+    animes.length > 0 ? (
+      <article className="new-animes">
+        <div id="left-arrow" className="left-arrow anime-arrow" onClick={goToPreviousAnime}>
+          <i className="fa-solid fa-arrow-left"></i>
+        </div>
+
+        <div className="anime-information-container">
+        {animes.map((anime, index) => (
+          <div
+            key={index}
+            className={`anime-information ${index === currentIndex ? 'active' : ''}`}
+            style={{
+              backgroundImage: `url(${anime.attributes.coverImage.large || anime.attributes.posterImage.small})`
+            }}
+          >
+            <div className="information-title">
+              <h4>{anime.attributes.titles.en || anime.attributes.titles.ja_jp}</h4>
+              <h5>{anime.attributes.startDate}</h5>
+            </div>
+          </div>
+        ))}
+        <div className="pagination-dots">
+          {animes.map((_, index) => (
+            <span
+              key={index}
+              className={`dot ${index === currentIndex ? 'active' : ''}`}
+              onClick={() => goToAnime(index)}
+            ></span>
+          ))}
+        </div>
+      </div>
+
+
+
+
+
+
+
+
+
+
+        <div id="right-arrow" className="right-arrow anime-arrow" onClick={goToNextAnime}>
+          <i className="fa-solid fa-arrow-right"></i>
+        </div>
+
+      </article>
+    ) : (
+      <p>Cargando animes recientes...</p>
+    )
+  );
 }
