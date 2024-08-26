@@ -80,18 +80,14 @@
 }
 
 .logo {
-  width: 100px;
+  min-width: 50px;
+  max-width: 75px;
   filter: drop-shadow(12px 12px 12px rgba(0, 0, 0, 0.5));
   display: flex;
   align-items: center;
   color: black;
 }
 
-.logo i {
-  font-size: 80px;
-  padding: 10px;
-  transform: rotate(45deg);
-}
 
 /* Estilo general del contenedor principal */
 #container {
@@ -127,6 +123,7 @@
 
 /* Ajuste para las secciones izquierda y derecha */
 .left-section {
+  flex: 3;
   display: flex;
   flex-direction: column;
   gap: 20px; /* Espacio entre artículos */
@@ -207,7 +204,7 @@
 .anime-information-container {
   position: relative;
   overflow: hidden; /* Oculta cualquier desbordamiento de las imágenes */
-  height: 231px; /* Ajusta según el tamaño deseado */
+  height: 250px; /* Ajusta según el tamaño deseado */
   width: 100%;
 }
 
@@ -325,6 +322,7 @@
 }
 
 .ova-item img {
+  border-radius: 8px;
   box-shadow: 4px 4px 4px rgba(0, 0, 0, 0.5);
   transition: all .3s ease-in-out;
 }
@@ -341,3 +339,8 @@
   font-size: 40px;
   cursor: pointer;
 }
+
+.see-more i:hover{
+  transform: scale(1.1);
+}
+
