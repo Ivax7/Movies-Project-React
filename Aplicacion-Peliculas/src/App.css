@@ -27,12 +27,12 @@ button {
   color: white;
   outline: none;
   border: none;
-}
 
-button:root {
-  outline: none;
-}
+  &:root {
+    outline: none;
+  }
 
-button:focus {
-  outline: none;
+  &:focus {
+    outline: none;  
+  }
 }

@@ -2,6 +2,7 @@
   box-sizing: border-box;
   margin: 0;
   padding: 0;
+  text-shadow: 2px 4px 4px rgba(0, 0, 0, 0.5); /* Sombra de texto */
 }
 
 body {
@@ -17,11 +18,12 @@ body {
 
 button {
   background-color: var(--color-button);
+  
+  &:hover {
+    background-color: var(--color-button-hover);
+  }
 }
 
-button:hover {
-  background-color: var(--color-button-hover);
-}
 
 h2 {
   text-wrap: balance;
@@ -51,21 +53,25 @@ nav {
   z-index: 9999;
   border-top-right-radius: 12px;
   transition: transform 1s ease;
-}
 
-nav button {
-  padding: 10px;
-  font-size: 16px;
-  cursor: pointer;
-  margin: 0;
-  transition: all 1s ease-in-out;
+  & button {
+    padding: 10px;
+    font-size: 16px;
+    cursor: pointer;
+    margin: 0;
+    transition: all 1s ease-in-out;
+  }
 }
-
-/**/
 
 /* Estilos para cuando el nav está oculto */
 nav.translate {
   transform: translateX(-250px);
+
+  &.desplegable {
+    position: absolute; /* Cambia a absoluta cuando el nav se traduce */
+    top: 10px; /* Asegura que se mantenga alineado correctamente en la parte superior */
+    left: 260px; /* Ajusta la posición inicial al borde del nav */
+  }
 }
 
 /* Ocultar el margen izquierdo cuando el nav está oculto */
@@ -78,17 +84,12 @@ nav.translate ~ .main-content {
   position: absolute; /* Cambia a absoluta cuando el nav se traduce */
   top: 10px; /* Asegura que se mantenga alineado correctamente en la parte superior */
   left: 260px; /* Ajusta la posición inicial al borde del nav */
-  transition: all 1s ease-in-out
+  transition: all 1s ease-in-out;
+  
+  & i {
+    padding: 2px 4px;
+  }
 }
-
-/* Cuando el nav está oculto, mover el botón 260px a la derecha */
-nav.translate .desplegable {
-  position: absolute; /* Cambia a absoluta cuando el nav se traduce */
-  top: 10px; /* Asegura que se mantenga alineado correctamente en la parte superior */
-  left: 260px; /* Ajusta la posición inicial al borde del nav */
-}
-
-/**/
 
 
 /* Contenido principal */
@@ -122,9 +123,6 @@ i {
   transition: all 0.2s ease-in-out;
 }
 
-.desplegable i {
-  padding: 2px 4px;
-}
 
 .black-mode:hover i {
   color: rgb(255, 233, 108);
@@ -141,28 +139,29 @@ i {
   cursor: pointer;
   overflow: hidden;
   height: 50px; /* Adjust height as needed */
-}
 
-.selector i {
-  position: absolute;
-  transition: all 1s ease;
-}
 
-.selector span {
-  position: absolute;
-  white-space: nowrap;
-  opacity: 0;
-  transform: translateX(20px);
-  transition: transform 0.3s ease, opacity 0.9s ease;
-}
+  & i {
+    position: absolute;
+    transition: all 1s ease;
+  }
 
-.selector:hover i {
-  transform: translateX(-50px);
-}
+  & span {
+    position: absolute;
+    white-space: nowrap;
+    opacity: 0;
+    transform: translateX(20px);
+    transition: transform 0.3s ease, opacity 0.9s ease;
+  }
 
-.selector:hover span {
-  transform: translateX(0);
-  opacity: 1;
+  &:hover i {
+    transform: translateX(-50px);
+  }
+
+  &:hover span {
+    transform: translateX(0);
+    opacity: 1;
+  }
 }
 
 .one-piece {
@@ -214,33 +213,37 @@ i {
   height: 400px;
   padding: 10px;
   padding-left: 0px;
+
+  &.star-rating {
+    margin-top: 20px;
+  }
+
+  & h2 {
+    color: var(--color-red);
+  }
 }
 
-#review-text .star-rating {
-  margin-top: 20px;
-} 
 
 .random-film {
   position: absolute;
   width: 400px;
   bottom: 20px;
 
-}
-
-.random-film:hover i {
+  &:hover i {
   transform: translateX(-80px);
+  }
 }
 
 #poster {
   display: flex;
   align-items: center;
   height: 100%;
-}
 
-#poster img {
-  min-width: 200px;
-  width: 250px;
-  border-radius: 8px;
+  & img {
+    min-width: 200px;
+    width: 250px;
+    border-radius: 8px;
+  }
 }
 
 
@@ -265,14 +268,23 @@ i {
   position: relative;
   width: 100%; /* Ajusta el ancho según tus necesidades */
   height: 80%;
-}
 
-.carrousel-films .film {
-  position: absolute;
-  width: 200px;
-  height: 300px;
-  perspective: 1000px;
-  transition: transform 1s ease-in-out, opacity 1s ease-in-out;
+  & .film {
+    position: absolute;
+    width: 200px;
+    height: 300px;
+    perspective: 1000px;
+    transition: transform 1s ease-in-out, opacity 1s ease-in-out;
+  }
+
+  & img {
+    padding: 10px;
+    max-height: 350px; /* Limita la altura máxima para mantener la proporción */
+    object-fit: contain; /* Ajusta la imagen para que se ajuste dentro del contenedor sin distorsionarse */
+    height: auto;
+    cursor: pointer;
+    border-radius: 18px;
+  }
 }
 
 .left {
@@ -291,15 +303,6 @@ i {
   opacity: 0.8;
 }
 
-/* Estilo para las imágenes del carrusel */
-.carrousel-films img {
-  padding: 10px;
-  max-height: 350px; /* Limita la altura máxima para mantener la proporción */
-  object-fit: contain; /* Ajusta la imagen para que se ajuste dentro del contenedor sin distorsionarse */
-  height: auto;
-  cursor: pointer;
-  border-radius: 18px;
-}
 
 .classical-title {
   text-align: center;
@@ -309,12 +312,11 @@ i {
   text-align: center;
   margin-top: 0;
   top: -10px;
-}
 
-.classical-rating i{
-  font-size: 16px; /* Tamaño de las estrellas */
+  & i {
+    font-size: 16px; /* Tamaño de las estrellas */
+  }
 }
-
 
 #recent-films {
   position: relative;
@@ -331,7 +333,6 @@ i {
   padding-left: 110px;
   z-index: 100;
 }
-
 
 .film-inner {
   position: relative;
@@ -370,29 +371,26 @@ i {
   justify-content: center;
   align-items: center;
   text-align: center;
-}
 
+  & p {
+    margin-block: 10px;
+  }
+
+  & p strong {
+    color: rgb(255, 255, 255);
+    padding: 5px;
+  }
+}
 
 .back-title {
   top: 50px;
   font-size: 18px;
   margin: 0;
   margin-bottom: 30px;
-  color: #911e1e;
+  color: var(--color-red);
 }
-
-.film-back p {
-  margin-block: 10px;
-}
-
-.film-back p strong {
-  color: rgb(255, 255, 255);
-  padding: 5px;
-}
-
 
 .see-all-films {
   padding: 10px;
   cursor: pointer;
-
 }

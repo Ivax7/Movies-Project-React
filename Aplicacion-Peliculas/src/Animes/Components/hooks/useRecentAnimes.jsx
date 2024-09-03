@@ -117,15 +117,6 @@ export function useRecentAnimes() {
         </div>
       </div>
 
-
-
-
-
-
-
-
-
-
         <div id="right-arrow" className="right-arrow anime-arrow" onClick={goToNextAnime}>
           <i className="fa-solid fa-arrow-right"></i>
         </div>

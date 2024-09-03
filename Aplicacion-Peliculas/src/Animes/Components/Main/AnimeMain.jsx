@@ -7,9 +7,9 @@ import luffyImage from './luffy.png';
 
 function AnimeMain() {
   const navigate = useNavigate();
-  const { ovas, visibleOvasCount, showMoreOvas } = useOVAS();  // Obtenemos datos y funciones del hook
 
   const recentAnimesComponent = useRecentAnimes();  // Obtenemos el componente JSX de animes recientes
+  const OVASComponent = useOVAS();  // Obtenemos el componente JSX de animes recientes
 
 
   function goToHub() {
@@ -53,34 +53,12 @@ function AnimeMain() {
           </section>
         </nav>
         <main id="main-anime-content">
+          {/* Animes Recientes y OVAS */}
           <div className="left-section">
             {recentAnimesComponent}
-            {/* Renderizado del contenido de OVAs */}
-            <article className='anime-films-ovas'>
-              <h4>Anime Films / OVAS / Specials</h4>
-              <div className="ovas-content">
-                {ovas.length > 0 ? (
-                  ovas.slice(0, visibleOvasCount).map((ova, index) => (
-                    <div key={index} className="ova-item">
-                      <img
-                        src={ova.attributes.posterImage.small}
-                        alt={ova.attributes.titles.en || ova.attributes.titles.ja_jp}
-                      />
-                      <h5>{ova.attributes.titles.en || ova.attributes.titles.ja_jp}</h5>
-                      <p className="ova-type">{ova.attributes.subtype}</p>
-                    </div>
-                  ))
-                ) : (
-                  <p>Cargando OVAs, películas y especiales recientes...</p>
-                )}
-              </div>
-              {visibleOvasCount < ovas.length && (
-                <div className="see-more" onClick={showMoreOvas}>
-                  <i className="fa-solid fa-plus"></i>
-                </div>
-              )}
-            </article>
+            {OVASComponent}            
           </div>
+
           <div className="right-section">
             <article className='popular-animes'>
               <h4>Most Popular</h4>
