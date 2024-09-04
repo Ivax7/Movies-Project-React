@@ -48,7 +48,8 @@ export function useRecentAnimes() {
     if (storedAnimes) {
       setAnimes(JSON.parse(storedAnimes));
     } else {
-      fetchAnimes("https://kitsu.io/api/edge/anime?sort=-startDate&limit=10");
+
+      fetchAnimes(`https://kitsu.io/api/edge/anime?year=2024&sort=-startDate&limit=10`);
     }
   }, []);
 

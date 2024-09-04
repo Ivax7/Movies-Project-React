@@ -12,7 +12,7 @@ export function useOVAS() {
     let totalFetchedOvas = 0;
 
     try {
-      while (totalFetchedOvas <= 30) {
+      while (totalFetchedOvas <= 20) {
         const response = await fetch(pageUrl);
         const data = await response.json();
 
@@ -20,9 +20,7 @@ export function useOVAS() {
           const startDate = new Date(ova.attributes.startDate);
           const today = new Date();
           return (
-            startDate <= today &&
-            (ova.attributes.subtype === 'ONA' || ova.attributes.subtype === 'Movie' || ova.attributes.subtype === 'Special') &&
-            ova.attributes.coverImage && ova.attributes.titles.en
+            startDate <= today 
           );
         });
 
@@ -33,9 +31,9 @@ export function useOVAS() {
         if (!pageUrl) break;
       }
 
-      const top30Ovas = allFilteredOvas.slice(0, 30);
-      localStorage.setItem('top30Ovas', JSON.stringify(top30Ovas));
-      setOvas(top30Ovas); // Actualizamos el estado con los datos obtenidos
+      const top20Ovas = allFilteredOvas.slice(0, 20);
+      localStorage.setItem('top20Ovas', JSON.stringify(top20Ovas));
+      setOvas(top20Ovas); // Actualizamos el estado con los datos obtenidos
       setLoading(false); // Finalizamos la carga
     } catch (error) {
       console.error('Error fetching OVAs page:', error);
@@ -43,13 +41,17 @@ export function useOVAS() {
     }
   };
 
+  const date = new Date();
+  const today = date.toISOString().split('T')[0]; // Formato de fecha 'YYYY-MM-DD'
+  
   useEffect(() => {
-    const storedOvas = localStorage.getItem('top30Ovas');
+    const storedOvas = localStorage.getItem('top20Ovas');
     if (storedOvas) {
       setOvas(JSON.parse(storedOvas));
       setLoading(false); // Datos cargados desde localStorage
     } else {
-      fetchOvas("https://kitsu.io/api/edge/anime?sort=-startDate&limit=30");
+      console.log(today);
+      fetchOvas(`https://kitsu.io/api/edge/anime?filter[subtype]=OVA,Movie,Special&sort=-startDate`);
     }
   }, []); // Solo se ejecuta una vez al montar el componente
 
@@ -60,9 +62,9 @@ export function useOVAS() {
     } else {
       setVisibleOvasCount(prevCount => {
         const newCount = prevCount + 5;
-        if (newCount >= 30) {
+        if (newCount >= 20) {
           setIsMaxReached(true);
-          return 30;
+          return 20;
         }
         return newCount;
       });
@@ -87,6 +89,7 @@ export function useOVAS() {
               />
               <h5>{ova.attributes.titles.en || ova.attributes.titles.ja_jp}</h5>
               <p>{ova.attributes.startDate}</p>
+              <p>{ova.attributes.subtype}</p>
             </div>
           ))
         )}
