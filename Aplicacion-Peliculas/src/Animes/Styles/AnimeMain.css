@@ -48,16 +48,23 @@
   justify-content: center;
 }
 
+
 .type {
   border-radius: 10px;
   padding: 10px;
   font-size: 16px;
   cursor: pointer;
   transition: all .2s ease-in-out;
+  color: var(--color-letter-hover);
+
+  &:hover{
+    color: aliceblue;
+    filter: brightness(1.2);
+  }
 }
 
-.type:hover {
-  color: var(--color-letter-hover);
+.animes-header {
+  color: aliceblue;
 }
 
 .categories {
@@ -140,13 +147,6 @@
 }
 
 
-/* Otros estilos se mantienen como antes */
-.new-animes,
-.anime-films-ovas,
-.popular-animes {
-  border: 1px solid #ccc;
-}
-
 .new-animes {
   position: relative;
 }
@@ -207,6 +207,7 @@
   overflow: hidden; /* Oculta cualquier desbordamiento de las imágenes */
   height: 250px; /* Ajusta según el tamaño deseado */
   width: 100%;
+  border-radius: 8px;
 }
 
 
@@ -255,7 +256,7 @@
   & img {
     height: 100%;
     width: 100%; /* Asegura que la imagen ocupe todo el contenedor */
-    border-radius: 12px;
+    border-radius:  8px;;
     object-fit: cover;
   }
 }
@@ -269,7 +270,7 @@
   height: 100%;
   padding-left: 30px;
   padding-top: 20px;
-  border-radius: 12px;
+  border-radius:  8px;;
   box-sizing: border-box; /* Asegura que el padding no afecte el tamaño */
 }
 
@@ -329,11 +330,18 @@
     font-size: 24px;
   }
 }
-.anime-films-ovas h4 {
-  padding: 10px;
-  background-color: var(--color-secondary-light);
-  text-shadow: 2px 4px 4px rgba(0, 0, 0, 0.5); /* Sombra de texto */
-}
+
+
+.anime-films-ovas {
+  border-radius: 8px;
+  background: linear-gradient(to bottom, rgba(160, 160, 160, 0.205), rgba(160, 160, 160, 0));
+  & h4 {
+    padding: 10px;
+    background-color: var(--color-secondary-light);
+    text-shadow: 2px 4px 4px rgba(0, 0, 0, 0.5); /* Sombra de texto */
+    border-radius: 8px;
+  }
+} 
 
 .ovas-content {
   display: flex;
@@ -393,16 +401,19 @@
 
 
 .popular-animes {
-  background-color: black;
-  box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.5);
+  border-radius:  8px;;
+  overflow:hidden;
 
   & h4 {
-    background-color: var(--color-red);
+    background-color: var(--color-secondary-light);
     padding: 20px;
     text-transform: uppercase;
     font-size: 22px;
     position: relative;
     line-height: 40px;
+    margin-bottom: 5px;
+    border-radius:  8px;;
+    box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.5);
 
     &::before {
       content: "";
@@ -412,37 +423,42 @@
       background-color: rgb(255, 179, 79);
       float: left;
       margin-right: 10px;
-      box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.5);
+      box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.5);
     }
   }
 }
 
+.information {
+  background-color: aliceblue;
+  padding: 3px;
+  border-radius:  8px;;
+}
 
-/* PopularInformation.css */
 .popular-information {
   position: relative;
-  height: 100px;
+  height: 75px;
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
   margin-bottom: 5px;
+  border-radius:  8px;;
   
+  &:last-child {
+    margin-bottom: 0;
+  }
+
   & .rank {
     position: absolute;
     top: 12px;
     left: 12px;
     font-weight: bold;
-    font-size: 16px;
-    background-color: var(--color-secondary-light);
+    font-size: 12px;
+    background-color: var(--color-red);
     border-radius: 8px;
-    padding: 8px 16px;
-    font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    padding: 4px 10px;
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    transition: opacity 0.4s ease-in-out;
   }
-
-  & .first {
-    color: rgb(255, 153, 0);
-  }
-
 
   & .title {
     position: absolute;
@@ -453,19 +469,47 @@
     z-index: 99;
     padding: 5px;
     border-radius: 10px;
-    font-size: 11px;
+    font-size: 10px;
     font-weight: bold;
+    transition: opacity 0.4s ease-in-out;
+  }
+
+  & .popularity {
+    visibility: hidden;
+    opacity: 0;
+    width: 100%;
+    height: 100%;
+    text-align: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #353535ad;
+    border-radius:  8px;;
+    font-size: 18px;
+    font-weight: bold;
+    transition: all 0.4s ease-in-out;
+    cursor: pointer;
+  }
+
+  &:hover .popularity {
+    visibility: visible;
+    opacity: 1;
+  }
+
+  &:hover .rank,
+  &:hover .title {
+    opacity: 0;
   }
 }
 
 .action-buttons {
   position: absolute;
-  bottom: 55px;
-  left: 65px;
+  top: 0;
+  right: 0;
   display: flex;
   align-items: center;
   background: rgba(0, 0, 0, 0.363);
-  border-radius: 12px;
+  border-radius:  8px;;
   
   & button {
     background: transparent;
@@ -487,3 +531,21 @@
 
 }
 
+
+
+
+
+
+
+
+
+
+
+
+
+/* Otros estilos se mantienen como antes
+.new-animes,
+.anime-films-ovas,
+.popular-animes {
+  border: 1px solid #ccc;
+} */
