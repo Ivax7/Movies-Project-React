@@ -2,13 +2,13 @@ import Nav from '../../../Home/Components/hooks/Nav';
 import { useNavigate } from 'react-router-dom';
 import '../../Styles/AnimeMain.css';
 import { useOVAS } from '../hooks/useOVAS';  // Importamos el hook para OVAs
-import { useRecentAnimes } from '../hooks/useRecentAnimes';
+import { useTopRankedAnimes } from '../hooks/useRecentAnimes';
 import luffyImage from './luffy.png';
 import { useMostPopular } from '../hooks/useMostPopular';
 function AnimeMain() {
   const navigate = useNavigate();
 
-  const recentAnimesComponent = useRecentAnimes();  // Obtenemos el componente JSX de animes recientes
+  const recentAnimesComponent = useTopRankedAnimes();  // Obtenemos el componente JSX de animes recientes
   const OVASComponent = useOVAS();  // Obtenemos el componente JSX de animes recientes
   const mostPopularComponent = useMostPopular();  // Obtenemos el componente JSX de animes recientes
 

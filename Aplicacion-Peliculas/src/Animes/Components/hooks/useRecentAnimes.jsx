@@ -1,75 +1,79 @@
 import { useState, useEffect } from "react";
-import { filterByDate } from "./FilterByDate";
 
-export function useRecentAnimes() {
+export function useTopRankedAnimes() {
   const [animes, setAnimes] = useState([]);
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isAnimating, setIsAnimating] = useState(false);
-
-  const fetchAnimes = async (url) => {
-    let pageUrl = url;
-    let allFilteredAnimes = [];
-
-    while (allFilteredAnimes.length < 10) {
-      try {
-        const response = await fetch(pageUrl);
-        const data = await response.json();
-
-        // Filtrar animes cuya fecha de inicio no sea posterior a la fecha actual
-        const filteredAnimes = filterByDate(data.data).filter(anime => {
-          const status = anime.attributes.status;
-          return (
-            (status === 'current' || status === 'upcoming') &&
-            anime.attributes.coverImage && anime.attributes.titles.en
-          );
-        });
-
-        allFilteredAnimes = allFilteredAnimes.concat(filteredAnimes);
-
-        if (allFilteredAnimes.length >= 10) {
-          break;
-        }
-
-        pageUrl = data.links.next;
-        if (!pageUrl) break;
-      } catch (error) {
-        console.error('Error fetching animes page:', error);
-        break;
-      }
-    }
-
-    const top10Animes = allFilteredAnimes.slice(0, 10);
-    localStorage.setItem('top10Animes', JSON.stringify(top10Animes));
-    setAnimes(top10Animes);
-  };
+  const [error, setError] = useState(null);
 
   useEffect(() => {
-    const storedAnimes = localStorage.getItem('top10Animes');
+    const fetchAnimes = async () => {
+      const baseUrl = `https://api.jikan.moe/v4/anime`;
+      
+      try {
+        const response = await fetch(`${baseUrl}?page=1&limit=10`);
+        
+        if (!response.ok) {
+          throw new Error("Network response was not ok");
+        }
+
+        const data = await response.json();
+
+        console.log("Fetched data:", data);
+
+        if (data.data && data.data.length > 0) {
+          setAnimes(data.data);
+          localStorage.setItem('topRankedAnimes', JSON.stringify(data.data));
+        } else {
+          setError("No animes found.");
+        }
+      } catch (error) {
+        setError("An error occurred while fetching data.");
+      }
+    };
+
+    const storedAnimes = localStorage.getItem('topRankedAnimes');
     if (storedAnimes) {
       setAnimes(JSON.parse(storedAnimes));
     } else {
-
-      fetchAnimes(`https://kitsu.io/api/edge/anime?year=2024&sort=-startDate&limit=10`);
+      fetchAnimes();
     }
   }, []);
 
+  useEffect(() => {
+    console.log("Current index:", currentIndex);
+  }, [currentIndex]);
+
+  useEffect(() => {
+    console.log("Animes array:", animes);
+  }, [animes]);
+
   const goToPreviousAnime = () => {
-    if (!isAnimating) {
+    if (!isAnimating && animes.length > 0) {
       setIsAnimating(true);
-      setCurrentIndex((prevIndex) => (prevIndex === 0 ? animes.length - 1 : prevIndex - 1));
+      setCurrentIndex((prevIndex) => {
+        const newIndex = prevIndex === 0 ? animes.length - 1 : prevIndex - 1;
+        console.log("Going to previous anime, index:", newIndex);
+        return newIndex;
+      });
     }
   };
 
   const goToNextAnime = () => {
-    if (!isAnimating) {
+    if (!isAnimating && animes.length > 0) {
       setIsAnimating(true);
-      setCurrentIndex((prevIndex) => (prevIndex === animes.length - 1 ? 0 : prevIndex + 1));
+      setCurrentIndex((prevIndex) => {
+        const newIndex = prevIndex === animes.length - 1 ? 0 : prevIndex + 1;
+        console.log("Going to next anime, index:", newIndex);
+        return newIndex;
+      });
     }
   };
 
   const goToAnime = (index) => {
-    if (!isAnimating) {
+    if (!isAnimating && animes.length > 0) {
       setIsAnimating(true);
+      console.log("Going to specific anime, index:", index);
       setCurrentIndex(index);
     }
   };
@@ -78,53 +82,64 @@ export function useRecentAnimes() {
     if (isAnimating) {
       const timer = setTimeout(() => {
         setIsAnimating(false);
-      }, 500); // Duración de la transición
+      }, 500);
 
       return () => clearTimeout(timer);
     }
   }, [isAnimating]);
 
-  // Retornamos el JSX directamente
-  return (
-    animes.length > 0 ? (
-      <article className="new-animes">
-        <div id="left-arrow" className="left-arrow anime-arrow" onClick={goToPreviousAnime}>
-          <i className="fa-solid fa-arrow-left"></i>
-        </div>
+  const handleLinkClick = (anime) => {
+    console.log("Clicked anime:", anime);
+    const url = `https://myanimelist.net/anime/${anime.mal_id}`;
+    window.open(url, '__blank');
+  };
 
-        <div className="anime-information-container">
-        {animes.map((anime, index) => (
-          <div
-            key={index}
-            className={`anime-information ${index === currentIndex ? 'active' : ''}`}
-            style={{
-              backgroundImage: `url(${anime.attributes.coverImage.large || anime.attributes.posterImage.small})`
-            }}
-          >
-            <div className="information-title">
-              <h4>{anime.attributes.titles.en || anime.attributes.titles.ja_jp}</h4>
-              <h5>{anime.attributes.startDate}</h5>
+  return (
+    <>
+      {error && <p>{error}</p>}
+      {animes.length > 0 ? (
+        <article className="new-animes">
+          <div id="left-arrow" className="left-arrow anime-arrow" onClick={goToPreviousAnime}>
+            <i className="fa-solid fa-arrow-left"></i>
+          </div>
+
+          <div className="anime-information-container">
+            {animes.map((anime, index) => (
+              <div
+                key={anime.mal_id} // Usa `mal_id` como clave única
+                className={`anime-information ${index === currentIndex ? 'active' : ''}`}
+                onClick={() => {
+                  console.log(`Clicked anime at index ${index}:`, anime); // Agrega esta línea para depuración
+                  handleLinkClick(anime);
+                }}
+                style={{
+                  backgroundImage: `url(${anime.images?.jpg?.large_image_url || ''})`
+                }}
+              >
+                <div className="information-title">
+                  <h4>{anime.titles?.find(title => title.type === 'English')?.title || 'No Title'}</h4>
+                  <h5>{anime.aired?.from ? new Date(anime.aired.from).toLocaleDateString() : 'Unknown'}</h5>
+                </div>
+              </div>
+            ))}
+            <div className="pagination-dots">
+              {animes.map((_, index) => (
+                <span
+                  key={index}
+                  className={`dot ${index === currentIndex ? 'active' : ''}`}
+                  onClick={() => goToAnime(index)}
+                ></span>
+              ))}
             </div>
           </div>
-        ))}
-        <div className="pagination-dots">
-          {animes.map((_, index) => (
-            <span
-              key={index}
-              className={`dot ${index === currentIndex ? 'active' : ''}`}
-              onClick={() => goToAnime(index)}
-            ></span>
-          ))}
-        </div>
-      </div>
 
-        <div id="right-arrow" className="right-arrow anime-arrow" onClick={goToNextAnime}>
-          <i className="fa-solid fa-arrow-right"></i>
-        </div>
-
-      </article>
-    ) : (
-      <p>Cargando animes recientes...</p>
-    )
+          <div id="right-arrow" className="right-arrow anime-arrow" onClick={goToNextAnime}>
+            <i className="fa-solid fa-arrow-right"></i>
+          </div>
+        </article>
+      ) : (
+        !error && <p>Cargando animes...</p>
+      )}
+    </>
   );
 }

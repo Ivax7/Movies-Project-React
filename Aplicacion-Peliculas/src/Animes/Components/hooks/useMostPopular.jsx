@@ -50,7 +50,7 @@ export function useMostPopular() {
   if (error) return <p>Error: {error}</p>;
 
   // Función para manejar el click y redirigir a un enlace
-  const handleAnimeClick = (anime) => {
+  const handleLinkClick = (anime) => {
     // Reemplaza esta URL con la estructura de enlace que desees
     const url = `https://myanimelist.net/anime/${anime.mal_id}`;
     
@@ -68,7 +68,7 @@ export function useMostPopular() {
               key={anime.mal_id}
               className="popular-information"
               style={{ backgroundImage: `url(${anime.images.jpg.large_image_url || 'default_image_url'})` }}
-              onClick={() => handleAnimeClick(anime)} // Agrega el evento onClick aquí
+              onClick={() => handleLinkClick(anime)} // Agrega el evento onClick aquí
             >
               <div className="rank">{index + 1}</div>
               <div className="title">{anime.title}</div>
@@ -85,3 +85,6 @@ export function useMostPopular() {
     </div>
   );
 }
+
+
+

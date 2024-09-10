@@ -443,6 +443,22 @@
   margin-bottom: 5px;
   border-radius:  8px;;
   
+  
+  &:first-child .rank {
+    background-color: goldenrod;
+    filter: brightness(1.2);
+  }
+  
+  &:nth-child(2) .rank {
+    background-color: silver;
+    filter: brightness(1.2);
+  }
+  
+  &:nth-child(3) .rank {
+    background-color: rgb(255, 156, 63);
+    filter: brightness(1.2);
+  }
+
   &:last-child {
     margin-bottom: 0;
   }
