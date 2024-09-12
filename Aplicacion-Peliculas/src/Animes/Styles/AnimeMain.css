@@ -250,8 +250,21 @@
 
   & h5 {
     font-size: 16px;
-    color: var(--color-red);
+    color: black;
   }
+
+  button {
+    position: relative;
+    pointer-events: all;
+    cursor: pointer;
+    padding: 5px 10px;
+    background-color: orange;
+    font-weight: bold;
+    font-size: 12px;
+    top: 10px;
+    border-radius: 6px;
+  }
+  
 
   & img {
     height: 100%;

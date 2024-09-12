@@ -1,34 +1,55 @@
 import { useState, useEffect } from "react";
+import { IconCaretDownFilled, IconCaretUpFilled } from '@tabler/icons-react';
 
 export function useOVAS() {
   const [ovas, setOvas] = useState([]);
   const [visibleOvasCount, setVisibleOvasCount] = useState(10);
   const [isMaxReached, setIsMaxReached] = useState(false);
-  const [loading, setLoading] = useState(true); // Estado para la imagen de carga
+  const [loading, setLoading] = useState(true);
 
-  const fetchOvas = async (url) => {
-    let pageUrl = url;
+  // Función para manejar reintentos en caso de errores de límite de velocidad
+  const retryFetch = async (url, retries = 3) => {
+    try {
+      const response = await fetch(url);
+      if (response.status === 429) { // Error 429: Too Many Requests
+        console.log('Rate limit exceeded, retrying...');
+        if (retries > 0) {
+          await new Promise(resolve => setTimeout(resolve, 1000)); // Esperar 1 segundo
+          return retryFetch(url, retries - 1);
+        } else {
+          throw new Error('Rate limit exceeded and no retries left');
+        }
+      }
+      return response;
+    } catch (error) {
+      console.error('Fetch error:', error);
+      throw error; // Re-lanzar el error después de todos los intentos
+    }
+  };
+
+  // Función para obtener OVAs desde la API de Jikan
+  const fetchOvas = async () => {
+    const baseUrl = 'https://api.jikan.moe/v4/anime';
+    let page = 1;
     let allFilteredOvas = [];
-    let totalFetchedOvas = 0;
+    const limit = 10; // Número de OVAs por página
 
     try {
-      while (totalFetchedOvas <= 20) {
-        const response = await fetch(pageUrl);
+      while (allFilteredOvas.length <= 20) {
+        const url = `${baseUrl}?page=${page}&limit=${limit}&order_by=start_date&sort=desc`;
+        const response = await retryFetch(url);
         const data = await response.json();
 
-        const filteredOvas = data.data.filter(ova => {
-          const startDate = new Date(ova.attributes.startDate);
-          const today = new Date();
-          return (
-            startDate <= today 
-          );
+        const filteredOvas = data.data.filter(anime => {
+          // Filtrar por tipo de OVA
+          return anime.type === 'OVA' || anime.type === 'Movie' || anime.type === 'Special';
         });
 
         allFilteredOvas = allFilteredOvas.concat(filteredOvas);
-        totalFetchedOvas = allFilteredOvas.length;
 
-        pageUrl = data.links.next;
-        if (!pageUrl) break;
+        if (data.data.length < limit) break; // Salir si no hay más datos
+
+        page++;
       }
 
       const top20Ovas = allFilteredOvas.slice(0, 20);
@@ -36,24 +57,29 @@ export function useOVAS() {
       setOvas(top20Ovas); // Actualizamos el estado con los datos obtenidos
       setLoading(false); // Finalizamos la carga
     } catch (error) {
-      console.error('Error fetching OVAs page:', error);
+      console.error('Error fetching OVAs:', error);
       setLoading(false); // En caso de error, finalizamos la carga
     }
   };
 
-  const date = new Date();
-  const today = date.toISOString().split('T')[0]; // Formato de fecha 'YYYY-MM-DD'
-  
   useEffect(() => {
     const storedOvas = localStorage.getItem('top20Ovas');
     if (storedOvas) {
       setOvas(JSON.parse(storedOvas));
       setLoading(false); // Datos cargados desde localStorage
     } else {
-      console.log(today);
-      fetchOvas(`https://kitsu.io/api/edge/anime?filter[subtype]=OVA,Movie,Special&sort=-startDate`);
+      fetchOvas();
     }
   }, []); // Solo se ejecuta una vez al montar el componente
+
+  // Función para convertir fechas al formato MM/DD/YYYY
+  const formatDate = (dateString) => {
+    const date = new Date(dateString);
+    const month = String(date.getMonth() + 1).padStart(2, '0');
+    const day = String(date.getDate()).padStart(2, '0');
+    const year = date.getFullYear();
+    return `${month}/${day}/${year}`;
+  };
 
   const handleButtonClick = () => {
     if (isMaxReached) {
@@ -84,29 +110,24 @@ export function useOVAS() {
           ovas.slice(0, visibleOvasCount).map((ova, index) => (
             <div key={index} className="ova-item">
               <img
-                src={ova.attributes.posterImage.small}
-                alt={ova.attributes.titles.en || ova.attributes.titles.ja_jp}
+                src={ova.images?.jpg?.large_image_url || ''}
+                alt={ova.title || 'No Title'}
               />
-              <h5>{ova.attributes.titles.en || ova.attributes.titles.ja_jp}</h5>
-              <p>{ova.attributes.startDate}</p>
-              <p>{ova.attributes.subtype}</p>
+              <h5>{ova.title || 'No Title'}</h5>
+              <p>{formatDate(ova.aired?.from) || 'Unknown'}</p>
+              <p>{ova.type || 'Unknown'}</p>
             </div>
           ))
         )}
       </div>
 
+
       {ovas.length > 10 && (
         <div className="see-more" onClick={handleButtonClick}>
           {isMaxReached ? (
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="icon icon-tabler icons-tabler-filled icon-tabler-caret-up">
-              <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
-              <path d="M11.293 7.293a1 1 0 0 1 1.32 -.083l.094 .083l6 6l.083 .094l.054 .077l.054 .096l.017 .036l.027 .067l.032 .108l.01 .053l.01 .06l.004 .057l.002 .059l-.002 .059l-.005 .058l-.009 .06l-.01 .052l-.032 .108l-.027 .067l-.07 .132l-.065 .09l-.073 .081l-.094 .083l-.077 .054l-.096 .054l-.036 .017l-.067 .027l-.108 .032l-.053 .01l-.06 .01l-.057 .004l-.059 .002h-12c-.852 0 -1.297 -.986 -.783 -1.623l.076 -.084l6 -6z" />
-            </svg>
+            <IconCaretUpFilled />
           ) : (
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="icon icon-tabler icons-tabler-filled icon-tabler-caret-down">
-              <path stroke="none" d="M0 0h24V0H0z" fill="none"/>
-              <path d="M18 9c.852 0 1.297 .986 .783 1.623l-.076 .084l-6 6a1 1 0 0 1 -1.32 .083l-.094 -.083l-6 -6l-.083 -.094l-.054 -.077l-.054 -.096l-.017 -.036l-.027 -.067l-.032 -.108l-.01 -.053l-.01 -.06l-.004 -.057v-.118l.005 -.058l.009 -.06l.01 -.052l.032 -.108l.027 -.067l.07 -.132l.065 -.09l.073 -.081l.094 -.083l.077 -.054l.096 -.054l.036 -.017l.067 -.027l.108 -.032l.053 -.01l.06 -.01l.057 -.004l12.059 -.002z" />
-            </svg>
+          <IconCaretDownFilled />
           )}
         </div>
       )}
