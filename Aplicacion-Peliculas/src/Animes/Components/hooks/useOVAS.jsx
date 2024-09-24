@@ -1,11 +1,32 @@
 import { useState, useEffect } from "react";
 import { IconCaretDownFilled, IconCaretUpFilled } from '@tabler/icons-react';
+import { handleLinkClick } from "./handleLinkClick";
 
 export function useOVAS() {
   const [ovas, setOvas] = useState([]);
   const [visibleOvasCount, setVisibleOvasCount] = useState(10);
   const [isMaxReached, setIsMaxReached] = useState(false);
   const [loading, setLoading] = useState(true);
+
+  // Función para obtener las fechas formateadas
+  function getFormattedDates() {
+    const today = new Date(); // Obtiene la fecha actual
+    const currentYear = today.getFullYear(); // Obtiene el año actual
+    
+    // Crea una nueva fecha para el 1 de enero del año actual
+    const firstDayOfYear = new Date(currentYear, 0, 1); 
+
+    // Formatea las fechas a YYYY-MM-DD
+    const firstDayFormatted = `${firstDayOfYear.getFullYear()}-${String(firstDayOfYear.getMonth() + 1).padStart(2, '0')}-${String(firstDayOfYear.getDate()).padStart(2, '0')}`;
+    const currentDateFormatted = `${today.getFullYear()}-${String(today.getMonth() + 1).padStart(2, '0')}-${String(today.getDate()).padStart(2, '0')}`;
+
+    return {
+      firstDayFormatted,
+      currentDateFormatted
+    };
+  }
+
+  const { firstDayFormatted, currentDateFormatted } = getFormattedDates();
 
   // Función para manejar reintentos en caso de errores de límite de velocidad
   const retryFetch = async (url, retries = 3) => {
@@ -35,26 +56,42 @@ export function useOVAS() {
     const limit = 10; // Número de OVAs por página
 
     try {
-      while (allFilteredOvas.length <= 20) {
-        const url = `${baseUrl}?page=${page}&limit=${limit}&order_by=start_date&sort=desc`;
+      while (allFilteredOvas.length < 20) { // Continuar hasta encontrar 20 OVAs
+        const url = `${baseUrl}?start_date=${firstDayFormatted}&end_date=${currentDateFormatted}&page=${page}&limit=${limit}&order_by=start_date&sort=desc`;
         const response = await retryFetch(url);
         const data = await response.json();
 
-        const filteredOvas = data.data.filter(anime => {
-          // Filtrar por tipo de OVA
-          return anime.type === 'OVA' || anime.type === 'Movie' || anime.type === 'Special';
-        });
+        // Verificamos que hay datos antes de filtrarlos
+        if (data.data && data.data.length > 0) {
+          const filteredOvas = data.data.filter(anime => {
+            // Filtrar por tipo de OVA, Película o Especial y evitar Hentai
+            const isOvaOrMovieOrSpecial = anime.type === 'ONA' || anime.type === 'Movie' || anime.type === 'Special';
+            const isNotHentai = !anime.genres.some(genre => genre.name.toLowerCase() === 'hentai'); // Filtrar por género
+            const existsInOvas = allFilteredOvas.some(existingAnime => existingAnime.mal_id === anime.mal_id);
+            
+            // Solo añadir si es OVA, Película o Especial, no existe ya y no es Hentai
+            return isOvaOrMovieOrSpecial && isNotHentai && !existsInOvas;
+          });
 
-        allFilteredOvas = allFilteredOvas.concat(filteredOvas);
+          // Usar spread operator para añadir los elementos filtrados
+          allFilteredOvas = [...allFilteredOvas, ...filteredOvas];
 
-        if (data.data.length < limit) break; // Salir si no hay más datos
+          // Verificar si hemos alcanzado el número deseado de OVAs
+          if (allFilteredOvas.length >= 20) {
+            break; // Salir del bucle si hemos encontrado suficientes OVAs
+          }
+        }
 
-        page++;
+        // Salir si no hay más datos
+        if (data.data.length < limit) break;
+
+        page++; // Aumentar la página para continuar la búsqueda
       }
 
-      const top20Ovas = allFilteredOvas.slice(0, 20);
-      localStorage.setItem('top20Ovas', JSON.stringify(top20Ovas));
-      setOvas(top20Ovas); // Actualizamos el estado con los datos obtenidos
+      // Eliminamos duplicados y limitamos a 20 elementos únicos
+      const uniqueOvas = Array.from(new Map(allFilteredOvas.map(ova => [ova.mal_id, ova])).values()).slice(0, 20);
+      localStorage.setItem('top20Ovas', JSON.stringify(uniqueOvas));
+      setOvas(uniqueOvas); // Actualizamos el estado con los datos obtenidos
       setLoading(false); // Finalizamos la carga
     } catch (error) {
       console.error('Error fetching OVAs:', error);
@@ -88,14 +125,15 @@ export function useOVAS() {
     } else {
       setVisibleOvasCount(prevCount => {
         const newCount = prevCount + 5;
-        if (newCount >= 20) {
+        if (newCount >= 20) { // Cambiar a 20
           setIsMaxReached(true);
-          return 20;
+          return 20; // Cambiar a 20
         }
         return newCount;
       });
     }
   };
+
 
   return (
     <article className="anime-films-ovas">
@@ -107,8 +145,8 @@ export function useOVAS() {
             <p>Loading Content</p>
           </div>
         ) : (
-          ovas.slice(0, visibleOvasCount).map((ova, index) => (
-            <div key={index} className="ova-item">
+          ovas.slice(0, visibleOvasCount).map((ova) => (
+            <div key={ova.mal_id} className="ova-item" onClick={() => handleLinkClick(ova)}> {/* Agregar el evento onClick */}
               <img
                 src={ova.images?.jpg?.large_image_url || ''}
                 alt={ova.title || 'No Title'}
@@ -121,13 +159,12 @@ export function useOVAS() {
         )}
       </div>
 
-
-      {ovas.length > 10 && (
+      {ovas.length > 10 && ( // Cambiar a 10 para mostrar el botón
         <div className="see-more" onClick={handleButtonClick}>
           {isMaxReached ? (
             <IconCaretUpFilled />
           ) : (
-          <IconCaretDownFilled />
+            <IconCaretDownFilled />
           )}
         </div>
       )}

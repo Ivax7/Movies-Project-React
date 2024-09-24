@@ -250,7 +250,7 @@
 
   & h5 {
     font-size: 16px;
-    color: black;
+    color: rgb(255, 255, 255);
   }
 
   button {
@@ -358,38 +358,51 @@
 
 .ovas-content {
   display: flex;
-  justify-content: center;
-  align-items: start;
+  justify-content: center; /* Centra los items horizontalmente */
+  align-items: flex-start; /* Mantiene los items al inicio verticalmente */
   gap: 20px;
   padding: 15px 10px;
   flex-wrap: wrap;
 }
 
 .ova-item {
+  display: flex; /* Usar flexbox */
+  flex-direction: column; /* Colocar los elementos en columna */
+  justify-content: center; /* Alinear el contenido al final del contenedor */
+  align-items: center; /* Centrar horizontalmente */
   width: 150px;
   font-size: 12px;
   cursor: pointer;
+  height: 300px; /* Ajustar la altura para crear espacio para el contenido */
 
   & h5 {
     margin-top: 10px;
+    margin-bottom: 5px; /* Espacio adicional entre el título y el párrafo */
   }
 
   & p {
     color: var(--color-red);
     font-size: 10px;
     font-weight: bold;
+    margin: 0; /* Eliminar márgenes para mejor alineación */
   }
 
   & img {
     border-radius: 8px;
     box-shadow: 4px 4px 4px rgba(0, 0, 0, 0.5);
-    transition: all .3s ease-in-out;
+    transition: all 0.3s ease-in-out;
+    max-height: 200px; /* Mantener la altura máxima */
+    object-fit: cover; /* Mantener la proporción de la imagen */
+    width: 100%; /* Asegurar que la imagen ocupa el 100% del ancho de .ova-item */
+    margin-bottom: 10px; /* Espacio entre la imagen y el texto */
   }
 
   &:hover img {
     transform: scale(1.1);
   }
 }
+
+
 
 
 .see-more {
@@ -561,20 +574,3 @@
 }
 
 
-
-
-
-
-
-
-
-
-
-
-
-/* Otros estilos se mantienen como antes
-.new-animes,
-.anime-films-ovas,
-.popular-animes {
-  border: 1px solid #ccc;
-} */

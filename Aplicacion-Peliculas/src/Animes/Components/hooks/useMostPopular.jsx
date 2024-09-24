@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { IconThumbUp, IconBookmark } from '@tabler/icons-react';
+import { handleLinkClick } from "./handleLinkClick";
 
 const TOP_ANIME_URL = "https://api.jikan.moe/v4/top/anime";
 
@@ -48,14 +49,6 @@ export function useMostPopular() {
 
   if (loading) return <p>Loading...</p>;
   if (error) return <p>Error: {error}</p>;
-
-  // Función para manejar el click y redirigir a un enlace
-  const handleLinkClick = (anime) => {
-    // Reemplaza esta URL con la estructura de enlace que desees
-    const url = `https://myanimelist.net/anime/${anime.mal_id}`;
-    
-    window.open(url, '__blank') // Redirige al usuario a la URL
-  };
 
 
   return (
