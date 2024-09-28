@@ -1,13 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import StarRating from '../../../RecentFilms/Components/StarRating/StarRating';
 import { API_KEY } from '../../../Components/Consts/consts';
-
+import { Modal } from './topRated';
 const BASE_URL = `https://api.themoviedb.org/3/movie/top_rated?api_key=${API_KEY}&language=en-US&page=1`;
 
 function CarrouselFilms() {
   const [movies, setMovies] = useState([]);
   const [currentPosition, setCurrentPosition] = useState(0);
-  const [flippedCards, setFlippedCards] = useState([]); // Estado para manejar las tarjetas volteadas
+  const [flippedCards, setFlippedCards] = useState([]);
+  const [showModal, setShowModal] = useState(false); // Estado para controlar el modal
 
   useEffect(() => {
     fetch(BASE_URL)
@@ -27,7 +28,7 @@ function CarrouselFilms() {
               .then(response => response.json())
               .then(creditsData => {
                 const director = creditsData.crew.find(member => member.job === 'Director');
-                const protagonists = creditsData.cast.slice(0, 3).map(actor => actor.name); // Los 3 primeros actores
+                const protagonists = creditsData.cast.slice(0, 3).map(actor => actor.name);
                 return {
                   ...movie,
                   director: director ? director.name : 'Unknown',
@@ -62,10 +63,19 @@ function CarrouselFilms() {
     );
   };
 
+  const handleSeeAllClick = () => {
+    setShowModal(true); // Mostrar el modal al hacer clic en "See All"
+  };
+
+  const closeModal = () => {
+    setShowModal(false); // Cerrar el modal
+  };
+
   return (
     <div id="carrousel" className='caroussel'>
       <h2 className='classical-title'>Top Rated</h2>
-      <button className='see-all-films'>See All</button>
+      <button className='see-all-films' onClick={handleSeeAllClick}>See All</button>
+
       <div className="carrousel-films">
         {movies.map((movie, index) => {
           let positionClass = '';
@@ -104,8 +114,13 @@ function CarrouselFilms() {
           );
         })}
       </div>
+
+      {showModal && (
+        <Modal closeModal={closeModal} />
+      )}
     </div>
   );
 }
 
 export default CarrouselFilms;
+

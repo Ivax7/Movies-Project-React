@@ -89,14 +89,25 @@ export function useRecentAnimes() {
               <div
                 key={anime.mal_id}
                 className={`anime-information ${index === currentIndex ? 'active' : ''}`}
-                style={{ backgroundImage: `url(${anime.images?.jpg?.large_image_url || ''})` }}
               >
-                <div className="information-title">
-                  <h4>{anime.title_english || anime.title_japanese || 'No Title'}</h4>
-                  <h5>{new Date(anime.aired?.from).toLocaleDateString()}</h5>
-                  <button onClick={handleLinkClick}>Info</button>
+                {/* Añadimos la imagen como un componente HTML <img> */}
+                  <img 
+                  src={anime.images?.jpg?.large_image_url || ''} 
+                  alt={anime.title_english || anime.title_japanese || 'No Title'} 
+                  className="anime-image"
+                  />
+                  <div className="anime-title-information">
+                    <h4>{anime.title_english || anime.title_japanese || 'No Title'}</h4>
+                    
+                    <div className="date-button">
+                      <h5>{new Date(anime.aired?.from).toLocaleDateString()}</h5>
+                      <button onClick={handleLinkClick}>More Info</button>
+                    </div>
+
+                    <p>{anime.synopsis}</p>
+                  </div>
                 </div>
-              </div>
+
             ))}
             <div className="pagination-dots">
               {animes.map((_, index) => (

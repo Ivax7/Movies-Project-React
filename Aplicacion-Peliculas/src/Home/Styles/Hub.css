@@ -254,6 +254,7 @@ i {
 }
 
 #carrousel {
+  position: relative;
   flex: 1; /* Ocupa el espacio disponible */
   height: 500px; /* Asegura que tenga la misma altura que el review */
   padding: 10px; /* rgba(119, 24, 24, 0.527)de un poco de espacio interno */
@@ -373,7 +374,7 @@ i {
   text-align: center;
 
   & p {
-    margin-block: 10px;
+    margin: 10px 5px;
   }
 
   & p strong {
@@ -390,7 +391,87 @@ i {
   color: var(--color-red);
 }
 
+
+.top-rated-title {
+  position: relative;
+}
+
+
 .see-all-films {
-  padding: 10px;
+  position: absolute;
+  right: 125px;
+  top: 25px;
+  padding: 15px;
+  cursor: pointer;
+}
+
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.7);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.modal-content {
+  padding: 20px;
+  border-radius: 10px;
+  position: relative;
+  width: 800px;
+  height: 700px;
+  overflow-x: hidden;
+  background-color: var(--color-background);
+
+  & ul {
+    font-size: 12px;
+    display: flex;
+    flex-wrap: wrap; /* Esto permite que las películas se ajusten en varias filas */
+    padding: 0;
+  }
+
+  & li {
+    list-style-type: none;
+    display: flex;
+    align-items: center;
+    width: 50%; /* Cada elemento ocupará el 50% del ancho, creando 2 columnas */
+    padding: 10px; /* Añade algo de espaciado alrededor de los elementos */
+    box-sizing: border-box;
+
+    & img {
+      width: 60px;
+      height: 90px; /* Asegura que las imágenes tengan la misma altura */
+      border-radius: 4px;
+      margin-right: 10px;
+    }
+
+    & span {
+      margin-left: 5px;
+      flex-grow: 1; /* El texto ocupará el resto del espacio disponible */    
+    }
+  }
+}
+
+.top-films-title {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+  
+  & h2 {
+    margin: 0;
+  }
+}
+
+.close-modal {
+  background-color: var(--color-button);
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 8px;
   cursor: pointer;
 }
