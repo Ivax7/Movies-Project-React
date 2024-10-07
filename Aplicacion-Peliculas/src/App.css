@@ -4,20 +4,7 @@
   box-sizing: border-box; /* Asegura que el padding y el border se incluyan en el ancho y alto totales */
 }
 
-:root {
-  --color-background: #202b38;
-  --color-primary-light: #1a1a1a96;
-  --color-primary-dark: #0f0f0f;
-  --color-secondary: #1c3350;
-  --color-button: #101921;
-  --color-button-hover: #040a0f;
-  --color-secondary-light: #00699e;
-  --color-secondary-dark: #1c2126;
-  --color-secondary-medium: #131619;
-  --color-dark-gray: #757575cb;
-  --color-red: #7a2123;
-  --color-letter-hover: #afafaf;
-}
+
 
 body {
   background-color: var(--color-background);

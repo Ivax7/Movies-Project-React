@@ -46,7 +46,7 @@ nav {
   flex-direction: column;
   gap: 10px;
   padding: 10px;
-  background-color: var(--color-secondary);
+  background-color: var(--color-nav);
   box-shadow: 5px 12px 12px rgba(0,0,0, 0.3);
   height: 100%;
   width: 250px;
@@ -199,12 +199,12 @@ i {
   flex: 1; /* Ocupa el espacio disponible */
   height: 500px;
   position: relative;
-  background-color: #1a1a1a96;
-  box-shadow: 5px 8px 15px rgba(0, 0, 0, 0.3);
+  background: linear-gradient(to right, transparent 0%, #0f0f0f 50%, transparent 100%);
   border-radius: 12px;
   display: flex;
   flex-direction: row; /* Asegura que el contenido interno se distribuya en fila */
   padding: 20px; /* Añade un poco de espacio interno */
+  margin-left: 50px;
   justify-content: center;
   align-items: center;
 }
@@ -255,6 +255,7 @@ i {
 
 #carrousel {
   position: relative;
+  background: linear-gradient(to right, transparent 0%, #0f0f0f 50%, transparent 100%);
   flex: 1; /* Ocupa el espacio disponible */
   height: 500px; /* Asegura que tenga la misma altura que el review */
   padding: 10px; /* rgba(119, 24, 24, 0.527)de un poco de espacio interno */
@@ -330,7 +331,7 @@ i {
 
 .recent-title {
   margin-bottom: 10px;
-  margin-top: 50px;
+  margin-top: 30px;
   padding-left: 110px;
   z-index: 100;
 }

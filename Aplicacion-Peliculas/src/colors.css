@@ -1,0 +1,19 @@
+
+
+/* Dark Mode */
+
+:root {
+  --color-background: #202b38;
+  --color-primary:#1a1a1a96;
+  --color-nav: #1c3350;
+  --color-red: #7a2123;
+  --color-light-blue:#00aaff;
+  --color-dark-blue: #00699e;
+  --color-button: #101921;
+  --color-button-hover: #040a0f;
+  --color-gray: #a0a0a0;
+  --color-gray-hover: #afafaf;
+  --color-gray-transparent: #eeeeee80;
+}
+
+/* --color-red-light: #e93030; */

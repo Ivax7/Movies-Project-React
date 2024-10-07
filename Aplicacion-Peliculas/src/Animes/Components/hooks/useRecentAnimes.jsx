@@ -31,6 +31,7 @@ export function useRecentAnimes() {
             const isNotHentai = !anime.genres.some(genre => genre.name === "Hentai");
             return (
               anime.title_english && 
+              anime.synopsis &&
               anime.title_english.trim() !== '' && 
               new Date(anime.aired?.from).getFullYear() === 2024 && 
               isNotHentai

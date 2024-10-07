@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import StarRating from '../../../RecentFilms/Components/StarRating/StarRating';
 import { API_KEY } from '../../../Components/Consts/consts';
 
