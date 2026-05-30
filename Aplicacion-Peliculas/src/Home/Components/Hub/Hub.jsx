@@ -5,7 +5,7 @@ import ContainerFilms from "../../../RecentFilms/Components/ContainerFilms/Conta
 import RandomHighRatedMovie from '../hooks/randomReview';
 import CarrouselFilms from '../hooks/carrousel';
 import { useNavigate } from 'react-router-dom';
-import Nav from '../hooks/Nav';
+import Nav from '../hooks/nav';
 
 function Hub() {
   const navigate = useNavigate();

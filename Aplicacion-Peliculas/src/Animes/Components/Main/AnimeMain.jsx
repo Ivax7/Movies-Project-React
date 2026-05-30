@@ -1,4 +1,4 @@
-import Nav from '../../../Home/Components/hooks/Nav';
+import Nav from '../../../Home/Components/hooks/nav';
 import { useNavigate } from 'react-router-dom';
 import '../../Styles/AnimeMain.css';
 import { useOVAS } from '../hooks/useOVAS';  // Importamos el hook para OVAs
